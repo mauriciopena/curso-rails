@@ -109,20 +109,35 @@ https://packagecontrol.io/installation#st2
 A estrutura básica de uma aplicação rails contém o seguinte:
    
 **app/** Aqui fica o código do "Core" da aplicação, os models, as views,  os controllers e os helpers
+
 **app/assets**	"assets"; (CSS), JavaScript e imagens
+
 **bin/**	Arquivos binários executáveis
+
 **config/**	Configurações gerais da aplicação
+
 **db/** Arquivos do banco de dados
+
 **doc/**	Documentação da aplicação
+
 **lib/**	Módulos e pacotes de assets da aplicação
+
 **lib/assets**	Pacotes de assets como CSS, JavaScript e imagens
+
 **log/**	Arquivos de log da aplicação
+
 **public/**	Dados públicos que podem ser acessados via browser, por exemplo páginas de erro
+
 **bin/rails**	Binário que pode ser utilizado para geração de código, abrir sessões de console e rodar um servidor local
+
 **test/**	Testes
+
 **tmp/**	Arquivos temporários
+
 **vendor/**	Código de terceiros como plugins e gems
+
 **vendor/assets**	Pacotes de assets de terceiros como CSS, JavaScript e imagens
+
 **README.rdoc**	Uma breve descrição da aplicação
 **Rakefile**	Tarefas utilitárias disponíveis através do comando rake
 **Gemfile**	Dependências de gems
