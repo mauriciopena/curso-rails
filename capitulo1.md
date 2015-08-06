@@ -125,6 +125,6 @@ A estrutura básica de uma aplicação rails contém o seguinte:
 **Gemfile.lock**	Lista de gems utilizadas atualmente pela aplicação
 **config.ru**	Arquivo de configuração do Rack middleware
 
-1.3.1 rails server
-1.3.2 Model-View-Controller (MVC)
+**1.3.1 Model-View-Controller (MVC)**
+
 1.3.3 Hello, world!
