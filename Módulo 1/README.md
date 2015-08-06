@@ -139,15 +139,45 @@ A estrutura básica de uma aplicação rails contém o seguinte:
 **vendor/assets**	Pacotes de assets de terceiros como CSS, JavaScript e imagens
 
 **README.rdoc**	Uma breve descrição da aplicação
+
 **Rakefile**	Tarefas utilitárias disponíveis através do comando rake
+
 **Gemfile**	Dependências de gems
+
 **Gemfile.lock**	Lista de gems utilizadas atualmente pela aplicação
+
 **config.ru**	Arquivo de configuração do Rack middleware
 
 **1.3.1 Model-View-Controller (MVC)**
 MVC é um padrão de arquitetura que impõe a separação entre a "lógica de negócio" e a interface gráfica (GUI) e lógica de apresentação. 
 ![padrão MVC](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/mvc_schematic.png)
 
-**1.3.3 Hello, world!**
+**1.3.2 Hello, world!**
+
+O objetivo dessa sessão é criar uma action de controller para renderizar a string "Hello, world!". Com isso poderemos substituir a página inicial padrão do rails com a página de hello world que iremos criar.
+
+> *app/controllers/application_controller.rb*
+
+    class ApplicationController < ActionController::Base
+      # Prevent CSRF attacks by raising an exception.
+      # For APIs, you may want to use :null_session instead.
+      protect_from_forgery with: :exception
+    
+      def hello
+        render text: "hello, world!"
+      end
+    end
+  
+
+
+> config/routes.rb
+
+
+    Rails.application.routes.draw do
+      # You can have the root of your site routed with "root"
+      root 'application#hello'
+    end
+
+
 
 
