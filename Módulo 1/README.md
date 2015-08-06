@@ -42,9 +42,6 @@ Reiniciar o terminal para que as alterações no PATH façam efeito e depois ver
     $ type rbenv
     => "rbenv is a function"
 
-
-
-
 Opcional (mas recomendado), instalar o ruby-build: Instalando o ruby-build como um plugin do rbenv permite que seja utilizado o comando install do rbenv. Isso irá instalar a última versão de desenvovimento do ruby-build no diretório ~/.rbenv/plugins/ruby-build. Para atualizar o ruby-build rode um comando git pull para baixar as últimas alterações.
 
     $ git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
@@ -61,27 +58,28 @@ Instalar o plugin rbenv-bundler
 
     $ git clone https://github.com/carsomyr/rbenv-bundler.git ~/.rbenv/plugins/bundler
 
-instalar o bundler e depois rodar o reshash para atualizar os shims do binário do bundle
+vamos setar o ruby que instalamos como global do sistema:
+
+    $ rbenv global 2.2.2
+
+depois podemos instalar o bundler utilizando o comando gem install do RubyGems 
 
     $ gem install bundler
-    $ rbenv rehash
+ 
+como instalmos uma nova gem, precisamos rodar o comando rehash para atualizar os shims do binário do bundle
 
+    $ rbenv rehash
 
 ----------
 
-Criar um arquivo Gemfile com o sequinte conteúdo:
+Criar um diretório "curso_rails" e dentro um arquivo Gemfile com o sequinte conteúdo:
 
     source "https://rubygems.org"
     gem 'rails', '4.2.3'
 
-Criar o esqueleto de uma aplicação:
+depois rode o comando blundle install, isso irá baixar a gem especificada no arquivo Gemfile, no caso o rails 4.2.3, assim como todas as suas dependências
 
-    $ rails _4.2.3_ new testApp
-
-Para iniciar o servidor:
-
-    $ rails server
-
+    $ bundle install
 
 Glossário:
 ----------
@@ -100,7 +98,13 @@ https://packagecontrol.io/installation#st2
 
 **1.3 Primeira aplicação**
 
-    $ rails _4.2.2_ new hello_app
+    $ cd ~/curso_rails
+    $ mkdir hello
+    $ cd hello
+    $ rbenv local 2.2.2
+    $ rails _4.2.3_ new hello_app
+    $ cd hello_app
+    $ rails server
 
 A estrutura básica de uma aplicação rails contém o seguinte:
    
@@ -130,3 +134,5 @@ MVC é um padrão de arquitetura que impõe a separação entre a "lógica de ne
 ![padrão MVC](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/mvc_schematic.png)
 
 **1.3.3 Hello, world!**
+
+
