@@ -126,5 +126,7 @@ A estrutura básica de uma aplicação rails contém o seguinte:
 **config.ru**	Arquivo de configuração do Rack middleware
 
 **1.3.1 Model-View-Controller (MVC)**
+MVC é um padrão de arquitetura que impõe a separação entre a "lógica de negócio" e a interface gráfica (GUI) e lógica de apresentação. 
+![padrão MVC](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/mvc_schematic.png)
 
-1.3.3 Hello, world!
+**1.3.3 Hello, world!**
