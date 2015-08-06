@@ -45,57 +45,57 @@ Reiniciar o terminal para que as alterações no PATH façam efeito e depois ver
 
 
 
-Opcional (mas recomendado), Instalar o ruby-build: Instalando o ruby-build como um plugin do rbenv permite que seja utilizado o comando install do rbenv. Isso irá instalar a última versão de desenvovimento do ruby-build no diretório ~/.rbenv/plugins/ruby-build. Para atualizar o ruby-build rode um comando git pull para baixar as últimas alterações.
+Opcional (mas recomendado), instalar o ruby-build: Instalando o ruby-build como um plugin do rbenv permite que seja utilizado o comando install do rbenv. Isso irá instalar a última versão de desenvovimento do ruby-build no diretório ~/.rbenv/plugins/ruby-build. Para atualizar o ruby-build rode um comando git pull para baixar as últimas alterações.
 
     $ git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
 Para listar as versões de ruby disponíveis:
 
-rbenv install -l
-
-
-----------
-
+    $ rbenv install -l
 
 Para instalar um versão específica do ruby, utilize o comando install
 
     $ rbenv install 2.2.2
 
-Instalar o plugin bundler
+Instalar o plugin rbenv-bundler
 
-git clone https://github.com/carsomyr/rbenv-bundler.git ~/.rbenv/plugins/bundler
+    $ git clone https://github.com/carsomyr/rbenv-bundler.git ~/.rbenv/plugins/bundler
 
-## instalar o bundler e depois rodar o reshash para atualizar os shims do binário do bundle
+instalar o bundler e depois rodar o reshash para atualizar os shims do binário do bundle
 
-https://github.com/bundler/bundler/
-
-gem install bundler
-rbenv rehash
-
-## Criar um arquivo Gemfile com o sequinte conteúdo:
-
-source "https://rubygems.org"
-gem 'rails', '4.2.3'
-
-## Criar o esqueleto da aplicação:
-rails _4.2.0_ new testApp
-
-## pode ser preciso instalar o pocote de desenvolvimento do sqlite:
-
-sudo apt-get install libsqlite3-dev
+    $ gem install bundler
+    $ rbenv rehash
 
 
-## Glossário:
+----------
+
+Criar um arquivo Gemfile com o sequinte conteúdo:
+
+    source "https://rubygems.org"
+    gem 'rails', '4.2.3'
+
+Criar o esqueleto de uma aplicação:
+
+    $ rails _4.2.0_ new testApp
+
+pode ser preciso instalar o pocote de desenvolvimento do sqlite:
+
+    $ sudo apt-get install libsqlite3-dev
+
+
+Glossário:
+----------
 
 - Gems: é uma biblioteca, um conjunto de arquivos Ruby reusáveis
 - Rails: framework composto por diversos pacotes (gems) escritos na linguagem ruby
 - RubyGems: gerenciador de dependências padrão do ruby, vem instalado nas versões de ruby superiores a 1.9
 - rbenv: gerenciador de versões de ruby
 - Bundler: outro gerenciador de dependências de gems, mais robusto que o RubyGems, padrão do Rails
+- shims: são executáveis que tem como única função passar comandos para o rbenv
+
+**1.2.1 Ambiente de desenvolvimento**
 
 
-
-1.2.1 Ambiente de desenvolvimento
 1.3 Primeira aplicação
 1.3.1 Bundler
 1.3.2 rails server
