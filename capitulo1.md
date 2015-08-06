@@ -96,6 +96,7 @@ Glossário:
 **1.2.1 Ambiente de desenvolvimento**
 
 
+
 1.3 Primeira aplicação
 1.3.1 Bundler
 1.3.2 rails server
