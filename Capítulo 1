@@ -20,7 +20,7 @@ Instalar o git:
 
 Instalar pacotes necessários:
 
-    $ sudo apt-get install -y libssl-dev libreadline-dev zlib1g-dev libffi-dev nodejs
+    $ sudo apt-get install -y libssl-dev libreadline-dev zlib1g-dev libffi-dev nodejs libsqlite3-dev
 
 ----------
 
@@ -76,11 +76,11 @@ Criar um arquivo Gemfile com o sequinte conteúdo:
 
 Criar o esqueleto de uma aplicação:
 
-    $ rails _4.2.0_ new testApp
+    $ rails _4.2.3_ new testApp
 
-pode ser preciso instalar o pocote de desenvolvimento do sqlite:
+Para iniciar o servidor:
 
-    $ sudo apt-get install libsqlite3-dev
+    $ rails server
 
 
 Glossário:
@@ -93,12 +93,38 @@ Glossário:
 - Bundler: outro gerenciador de dependências de gems, mais robusto que o RubyGems, padrão do Rails
 - shims: são executáveis que tem como única função passar comandos para o rbenv
 
-**1.2.1 Ambiente de desenvolvimento**
+**1.2.1 IDE**
 
+http://www.sublimetext.com
+https://packagecontrol.io/installation#st2
 
+**1.3 Primeira aplicação**
 
-1.3 Primeira aplicação
-1.3.1 Bundler
-1.3.2 rails server
-1.3.3 Model-View-Controller (MVC)
-1.3.4 Hello, world!
+    $ rails _4.2.2_ new hello_app
+
+A estrutura básica de uma aplicação rails contém o seguinte:
+   
+**app/** Aqui fica o código do "Core" da aplicação, os models, as views,  os controllers e os helpers
+**app/assets**	"assets"; (CSS), JavaScript e imagens
+**bin/**	Arquivos binários executáveis
+**config/**	Configurações gerais da aplicação
+**db/** Arquivos do banco de dados
+**doc/**	Documentação da aplicação
+**lib/**	Módulos e pacotes de assets da aplicação
+**lib/assets**	Pacotes de assets como CSS, JavaScript e imagens
+**log/**	Arquivos de log da aplicação
+**public/**	Dados públicos que podem ser acessados via browser, por exemplo páginas de erro
+**bin/rails**	Binário que pode ser utilizado para geração de código, abrir sessões de console e rodar um servidor local
+**test/**	Testes
+**tmp/**	Arquivos temporários
+**vendor/**	Código de terceiros como plugins e gems
+**vendor/assets**	Pacotes de assets de terceiros como CSS, JavaScript e imagens
+**README.rdoc**	Uma breve descrição da aplicação
+**Rakefile**	Tarefas utilitárias disponíveis através do comando rake
+**Gemfile**	Dependências de gems
+**Gemfile.lock**	Lista de gems utilizadas atualmente pela aplicação
+**config.ru**	Arquivo de configuração do Rack middleware
+
+1.3.1 rails server
+1.3.2 Model-View-Controller (MVC)
+1.3.3 Hello, world!
