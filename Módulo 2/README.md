@@ -9,7 +9,9 @@
     $ rails _4.2.3_ new peep_app
 
 **2.2 User model**
-Os "Users" da nossa aplicação terão os seguintes atributos: 
+
+"Users" terão os seguintes atributos: 
+
 - id (integer) identificador único do usuário
 - name (string) nome público do usuário
 - email (string) que também servirá para login.
@@ -19,3 +21,12 @@ Os "Users" da nossa aplicação terão os seguintes atributos:
 - id (integer)
 - content (text)
 - user_id (integer)
+
+**2.4 Resource Users**
+
+Um resource é a implementação de um data model e de uma interface web para esse model. Essa combinação nos permite pensar em users como um objeto que pode ser criado, lido, editado e excluído através do protocolo web HTTP.
+
+    $ rails generate scaffold User name:string email:string
+
+
+
