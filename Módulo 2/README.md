@@ -1,4 +1,4 @@
-2 - peep app
+2 - peep_app
 -----------
 
 **2.1 Planejando a aplicação**
