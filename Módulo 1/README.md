@@ -58,28 +58,42 @@ Instalar o plugin rbenv-bundler
 
     $ git clone https://github.com/carsomyr/rbenv-bundler.git ~/.rbenv/plugins/bundler
 
-vamos setar o ruby que instalamos como global do sistema:
+vamos criar uma pasta para nosso projeto:
 
-    $ rbenv global 2.2.2
+    $ mkdir curso-rails
+    $ mkdir hello_app
+
+para setar o ruby deste projeto usamos o comando local do rbenv:
+
+    $ rbenv local 2.2.2
 
 depois podemos instalar o bundler utilizando o comando gem install do RubyGems 
 
     $ gem install bundler
  
-como instalmos uma nova gem, precisamos rodar o comando rehash para atualizar os shims do binário do bundle
+como instalamos uma nova gem, precisamos rodar o comando rehash para atualizar os shims do binário do bundle
 
     $ rbenv rehash
 
 ----------
 
-Criar um diretório "curso_rails" e dentro um arquivo Gemfile com o sequinte conteúdo:
+crie um arquivo Gemfile com o sequinte conteúdo na pasta do projeto:
 
     source "https://rubygems.org"
     gem 'rails', '4.2.3'
 
-depois rode o comando blundle install, isso irá baixar a gem especificada no arquivo Gemfile, no caso o rails 4.2.3, assim como todas as suas dependências
+vamos utilizar o comando config do bundle para que definir o local onde as gems devem ser baixadas, nesse caso na pasta "vendor" do nosso projeto. 
+
+    $ bundle config path vendor/bundle
+
+depois rode o comando blundle install, isso irá baixar a gem especificada no arquivo Gemfile, no caso o rails 4.2.3, assim como todas as suas dependências. Não esquecer de rodar o comando rehash novamente no final.
 
     $ bundle install
+    $ rbenv rehash
+
+adicionar um gitignore para garantir que as gems baixadas não venham a para no controle de versão
+
+    $ echo 'vendor/bundle' >> .gitignore
 
 Glossário:
 ----------
@@ -102,7 +116,7 @@ https://packagecontrol.io/installation#st2
     $ mkdir hello
     $ cd hello
     $ rbenv local 2.2.2
-    $ rails _4.2.3_ new hello_app
+    $ bundle exec rails _4.2.3_ new hello_app
     $ cd hello_app
     $ rails server
 
@@ -177,6 +191,7 @@ O objetivo dessa sessão é criar uma action de controller para renderizar a str
       # You can have the root of your site routed with "root"
       root 'application#hello'
     end
+
 
 
 
