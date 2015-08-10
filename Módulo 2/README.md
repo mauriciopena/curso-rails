@@ -118,6 +118,16 @@ Vamos verificar no console se essa associação funciona:
 
 
 
+**2.12 Exercício**
 
+Alterar a validação no micropost para para garantir que ele não seja criado em branco:
+
+    class Micropost < ActiveRecord::Base
+        belongs_to :user
+        validates :content, length: { maximum: 140 },
+                            presence: true
+    end
+
+Adicionar a mesma validação nos campos nome e email do User model.
 
 
