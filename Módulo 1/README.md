@@ -91,7 +91,7 @@ depois rode o comando blundle install, isso irá baixar a gem especificada no ar
     $ bundle install
     $ rbenv rehash
 
-adicionar um gitignore para garantir que as gems baixadas não venham a para no controle de versão
+adicionar um gitignore para garantir que as gems baixadas não venham a parar no controle de versão
 
     $ echo 'vendor/bundle' >> .gitignore
 
