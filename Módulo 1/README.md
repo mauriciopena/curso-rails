@@ -61,7 +61,6 @@ Instalar o plugin rbenv-bundler
 vamos criar uma pasta para nosso projeto:
 
     $ mkdir curso-rails
-    $ mkdir hello_app
 
 para setar o ruby deste projeto usamos o comando local do rbenv:
 
