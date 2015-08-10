@@ -1,0 +1,9 @@
+/home/pena/.rbenv/versions/2.2.2/bin/ruby -r ./siteconf20150810-19713-1tm7ebs.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+make: Nada a ser feito para `all'.
+
+make "DESTDIR=" install

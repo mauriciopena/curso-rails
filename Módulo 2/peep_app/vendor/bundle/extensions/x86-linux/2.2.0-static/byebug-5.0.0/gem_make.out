@@ -1,0 +1,15 @@
+/home/pena/.rbenv/versions/2.2.2/bin/ruby -r ./siteconf20150810-19713-1vgvybm.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling context.c
+compiling byebug.c
+compiling breakpoint.c
+compiling threads.c
+compiling locker.c
+linking shared-object byebug/byebug.so
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.so ./.gem.20150810-19713-cjgheq/byebug
