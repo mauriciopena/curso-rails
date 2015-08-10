@@ -28,8 +28,17 @@ Vamos editar o Gemfile para ficar da seguinte maneira:
     group :test do
       gem 'minitest-reporters'
       gem 'mini_backtrace'
+      gem 'guard'
       gem 'guard-minitest'
     end
+
+**3.1 Gerando páginas estáticas**
+
+    $ ./bin/rails generate controller StaticPages home help
+
+**3.2 Primeiros testes**
+
+
 
 
 
