@@ -114,7 +114,7 @@ https://packagecontrol.io/installation#st2
     $ cd ~/curso_rails
     $ bundle exec rails _4.2.3_ new hello_app
     $ cd hello_app
-    $ rails server
+    $ bundle exec rails server
 
 A estrutura básica de uma aplicação rails contém o seguinte:
    
