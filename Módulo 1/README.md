@@ -112,9 +112,6 @@ https://packagecontrol.io/installation#st2
 **1.3 Primeira aplicação**
 
     $ cd ~/curso_rails
-    $ mkdir hello
-    $ cd hello
-    $ rbenv local 2.2.2
     $ bundle exec rails _4.2.3_ new hello_app
     $ cd hello_app
     $ rails server
