@@ -290,6 +290,37 @@ Agora podemos limpar nossas páginas:
       This is the about page.
     </p>
 
+Utilizando a função setup, que roda antes de cada teste podemos remover duplicidade também nos testes:
+
+> test/controllers/static_pages_controller_test.rb
+
+    require 'test_helper'
+    
+    class StaticPagesControllerTest < ActionController::TestCase
+    
+      def setup
+        @base_title = "Curso de Ruby on Rails"
+      end
+    
+      test "should get home" do
+        get :home
+        assert_response :success
+        assert_select "title", "Home | #{@base_title}"
+      end
+    
+      test "should get help" do
+        get :help
+        assert_response :success
+        assert_select "title", "Help | #{@base_title}"
+      end
+    
+      test "should get about" do
+        get :about
+        assert_response :success
+        assert_select "title", "About | #{@base_title}"
+      end
+    end
+
 **3.9 Configurando a rota raiz** 
 
 > config/routes.rb
@@ -299,4 +330,5 @@ Agora podemos limpar nossas páginas:
       get  'static_pages/help'
       get  'static_pages/about'
     end
+
 
