@@ -66,6 +66,44 @@ Vamos editar o Gemfile para ficar da seguinte maneira:
 
 **3.4 Verde**
 
+> config/routes.rb
+
+    Rails.application.routes.draw do
+      get 'static_pages/home'
+      get 'static_pages/help'
+      get 'static_pages/about'
+      .
+      .
+      .
+    end
+O teste continua falhando, mas a mensagem mudou. A rota que criamos está tentando encontrar uma action no static_pages_controller que não existe. Vamos criá-la:
+
+> app/controllers/static_pages_controller.rb
+
+    class StaticPagesController < ApplicationController
+    
+      def home
+      end
+    
+      def help
+      end
+    
+      def about
+      end
+    end
+
+Ainda no vermelho, pois falta o template (a view)
+
+    $ touch app/views/static_pages/about.html.erb
+
+> app/views/static_pages/about.html.erb
+
+    <h1>About</h1>
+    <p>
+      This is the sample application.
+    </p>
+
+
 
 
 
