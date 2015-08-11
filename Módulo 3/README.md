@@ -104,7 +104,13 @@ Ainda no vermelho, pois falta o template (a view)
     </p>
 
 
+**3.5 Paginas ligeiramente dinamicas**
 
+Vamos editar as páginas Home, Help, e About pages para que seu title seja diferente em cada uma delas, criar testes e refatorar no final para eliminar duplicação de código.
+
+O resultado final deve ser que o título das páginas ficará no formato “nome da página | Curso de Ruby on Rails”, onde a primeira parte vai variar dependendo da página acessada.
+
+    $ mv app/views/layouts/application.html.erb layout_file
 
 
 
