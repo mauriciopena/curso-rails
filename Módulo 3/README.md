@@ -192,5 +192,53 @@ O resultado final deve ser que o título das páginas ficará no formato “nome
       </body>
     </html>
 
+**3.8 Layouts e Ruby inserido (Refatorar)**
+
+> app/views/static_pages/home.html.erb
+
+    <% provide(:title, "Home") %>
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title><%= yield(:title) %> | Curso de Ruby on Rails</title>
+      </head>
+      <body>
+        <h1>Sample App</h1>
+        <p>
+          This is the home page.
+        </p>
+      </body>
+    </html>
+
+> app/views/static_pages/help.html.erb
+
+    <% provide(:title, "Help") %>
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title><%= yield(:title) %> | Curso de Ruby on Rails</title>
+      </head>
+      <body>
+        <h1>Sample App</h1>
+        <p>
+          This is the help page.
+        </p>
+      </body>
+    </html>
 
 
+> app/views/static_pages/about.html.erb
+
+    <% provide(:title, "About") %>
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title><%= yield(:title) %> | Curso de Ruby on Rails</title>
+      </head>
+      <body>
+        <h1>Sample App</h1>
+        <p>
+          This is the about page.
+        </p>
+      </body>
+    </html>
