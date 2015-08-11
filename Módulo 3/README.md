@@ -38,6 +38,40 @@ Vamos editar o Gemfile para ficar da seguinte maneira:
 
 **3.2 Primeiros testes**
 
+    $ ./bin/rake test
+
+**3.3 Vermelho**
+
+> test/controllers/static_pages_controller_test.rb
+
+    require 'test_helper'
+    
+    class StaticPagesControllerTest < ActionController::TestCase
+    
+      test "should get home" do
+        get :home
+        assert_response :success
+      end
+    
+      test "should get help" do
+        get :help
+        assert_response :success
+      end
+    
+      test "should get about" do
+        get :about
+        assert_response :success
+      end
+    end
+
+**3.4 Verde**
+
+
+
+
+
+
+
 
 
 
