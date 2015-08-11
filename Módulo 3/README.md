@@ -242,3 +242,52 @@ O resultado final deve ser que o título das páginas ficará no formato “nome
         </p>
       </body>
     </html>
+
+Para eliminar a duplicação de código vamos restaurar nosso arquivo de layout:
+
+    $ mv layout_file app/views/layouts/application.html.erb
+    
+
+> app/views/layouts/application.html.erb
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title><%= yield(:title) %> | Curso de Ruby on Rails</title>
+        <%= stylesheet_link_tag    'application', media: 'all',
+                                                  'data-turbolinks-track' => true %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+      </head>
+      <body>
+        <%= yield %>
+      </body>
+    </html>
+
+Agora podemos limpar nossas páginas:
+
+> app/views/static_pages/home.html.erb
+
+    <% provide(:title, "Home") %>
+    <h1>Sample App</h1>
+    <p>
+      This is the home page.
+    </p>
+
+> app/views/static_pages/help.html.erb
+
+    <% provide(:title, "Help") %>
+    <h1>Sample App</h1>
+    <p>
+      This is the help page.
+    </p>
+
+> app/views/static_pages/about.html.erb
+
+    <% provide(:title, "About") %>
+    <h1>Sample App</h1>
+    <p>
+      This is the about page.
+    </p>
+
+
