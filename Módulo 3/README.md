@@ -418,3 +418,6 @@ esse comando cria o arquivo Guardfile, que devemos editar pra ficar assim:
     end
 
 
+para inciar o guard:
+
+    $ bundle exec guard
