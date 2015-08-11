@@ -113,12 +113,84 @@ O resultado final deve ser que o título das páginas ficará no formato “nome
     $ mv app/views/layouts/application.html.erb layout_file
 
 
+**3.6 Testando title (vermelho)**
+
+> test/controllers/static_pages_controller_test.rb
+
+    require 'test_helper'
+    
+    class StaticPagesControllerTest < ActionController::TestCase
+    
+      test "should get home" do
+        get :home
+        assert_response :success
+        assert_select "title", "Home | Curso de Ruby on Rails"
+      end
+    
+      test "should get help" do
+        get :help
+        assert_response :success
+        assert_select "title", "Help | Curso de Ruby on Rails"
+      end
+    
+      test "should get about" do
+        get :about
+        assert_response :success
+        assert_select "title", "About | Curso de Ruby on Rails"
+      end
+    end
+
+**3.7 Adicionando títulos para as páginas (verde)**
+
+> app/views/static_pages/home.html.erb
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Home | Curso de Ruby on Rails</title>
+      </head>
+      <body>
+        <h1>Sample App</h1>
+        <p>
+          This is the home page.
+        </p>
+      </body>
+    </html>
+
+
+
+> app/views/static_pages/help.html.erb
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Help | Curso de Ruby on Rails</title>
+      </head>
+      <body>
+        <h1>Sample App</h1>
+        <p>
+          This is the help page.
+        </p>
+      </body>
+    </html>
 
 
 
 
+> app/views/static_pages/about.html.erb
 
-
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>About | Curso de Ruby on Rails</title>
+      </head>
+      <body>
+        <h1>Sample App</h1>
+        <p>
+          This is the about page.
+        </p>
+      </body>
+    </html>
 
 
 
