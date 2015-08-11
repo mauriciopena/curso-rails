@@ -290,4 +290,13 @@ Agora podemos limpar nossas páginas:
       This is the about page.
     </p>
 
+**3.9 Configurando a rota raiz** 
+
+> config/routes.rb
+
+    Rails.application.routes.draw do
+      root 'static_pages#home'
+      get  'static_pages/help'
+      get  'static_pages/about'
+    end
 
