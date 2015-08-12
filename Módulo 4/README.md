@@ -56,4 +56,54 @@
       end
     end
 
+> app/views/static_pages/home.html.erb
+
+    <h1>Sample App</h1>
+    <p>
+      This is the home page for the
+      <a href="http://www.railstutorial.org/">Ruby on Rails Tutorial</a>
+      sample application.
+    </p>
+
+
+** 4.1 Strings e methods**
+
+
+----------
+
+
+**4.1.1 strings**
+
+    $ ./bin/rails c
+    >> ""         # Uma string vazia
+    => ""
+    >> "foo"      # Uma string não vazia
+    => "foo"
+
+para concatenar string usamos o operador +:
+
+    >> "foo" + "bar"    # String concatenation
+    => "foobar"
+
+Outro maneira é usando a sintaxe especial #{}:
+
+>> first_name = "Lucas"    # Definindo variável
+=> "Lucas"
+>> "#{first_name} Pratto"     # String interpolation
+=> "Lucas Pratto"
+
+Outra maneira (menos elegante) de fazer a mesma coisa:
+
+>> first_name = "Lucas"
+=> "Lucas"
+>> last_name = "Pratto"
+=> "Pratto"
+>> first_name + " " + last_name    # Concatenation, with a space in between
+=> "Lucas Pratto"
+>> "#{first_name} #{last_name}"    # The equivalent interpolation
+=> "Lucas Pratto"
+
+
+
+
 
