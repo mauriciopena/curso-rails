@@ -87,21 +87,24 @@ para concatenar string usamos o operador +:
 
 Outro maneira é usando a sintaxe especial #{}:
 
->> first_name = "Lucas"    # Definindo variável
-=> "Lucas"
->> "#{first_name} Pratto"     # String interpolation
-=> "Lucas Pratto"
+    >> first_name = "Lucas"    # Definindo variável
+    => "Lucas"
+    >> "#{first_name} Pratto"     # String interpolation
+    => "Lucas Pratto"
 
 Outra maneira (menos elegante) de fazer a mesma coisa:
 
->> first_name = "Lucas"
-=> "Lucas"
->> last_name = "Pratto"
-=> "Pratto"
->> first_name + " " + last_name    # Concatenation, with a space in between
-=> "Lucas Pratto"
->> "#{first_name} #{last_name}"    # The equivalent interpolation
-=> "Lucas Pratto"
+	>> first_name = "Lucas"
+	=> "Lucas"
+	>> last_name = "Pratto"
+	=> "Pratto"
+	>> first_name + " " + last_name    # Concatenation, with a space in between
+	=> "Lucas Pratto"
+	>> "#{first_name} #{last_name}"    # The equivalent interpolation
+	=> "Lucas Pratto"
+
+
+
 
 
 
