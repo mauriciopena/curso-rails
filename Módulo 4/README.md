@@ -131,6 +131,65 @@ Mas existe uma diferença importante; Não é possível usar interpolação em s
     >> '#{foo} bar'     # Single-quoted strings don't allow interpolation
     => "\#{foo} bar"
 
+por esse motivo strings de aspas simples sao muito uteis quando se quer utilizar um valor literal, por exemplo:
+
+    >> '\n'       # A literal 'backslash n' combination
+    => "\\n"
+
+**Objetos e passagem de mensagens**
+
+Tudo em Ruby, incluindo strings e até mesmo nil, é um objeto.
+Um object do tipo string, por exemplo, responde à mensagem length, que retorna o número de caracteres da string:
+
+    >> "foobar".length        # Passing the "length" message to a string
+    => 6
+
+Normalmente as mensagens que são passadas para os objetos são métodos, que são funções definidas nesses objetos. Um objeto string também responde ao método empty?:
+
+    >> "foobar".empty?
+    => false
+    >> "".empty?
+    => true
+
+O sinal de interrogação no final do método empty? é uma convenção do ruby para indicar que o valor de retorno é um booleano:
+
+    >> s = "foobar"
+    >> if s.empty?
+    >>   "The string is empty"
+    >> else
+    >>   "The string is nonempty"
+    >> end
+    => "The string is nonempty"
+
+Podemos incluir mais de um teste usando elsif (else + if):
+
+    >> if s.nil?
+    >>   "The variable is nil"
+    >> elsif s.empty?
+    >>   "The string is empty"
+    >> elsif s.include?("foo")
+    >>   "The string includes 'foo'"
+    >> end
+    => "The string includes 'foo'"
+
+Booleanos podem ser combinados usando os operadores && (“and”), || (“or”) e ! (“not”):
+
+    >> x = "foo"
+    => "foo"
+    >> y = ""
+    => ""
+    >> puts "Both strings are empty" if x.empty? && y.empty?
+    => nil
+    >> puts "One of the strings is empty" if x.empty? || y.empty?
+    "One of the strings is empty"
+    => nil
+    >> puts "x is not empty" if !x.empty?
+    "x is not empty"
+    => nil
+
+
+
+
 
 
 
