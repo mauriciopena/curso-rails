@@ -188,6 +188,44 @@ Booleanos podem ser combinados usando os operadores && (“and”), || (“or”
     => nil
 
 
+Como nil e um objeto ele responde ao metodo to_s que e capaz de converter praticamente qualquer objeto em uma string:
+
+    >> nil.to_s
+    => ""
+    >> nil.empty?
+    NoMethodError: undefined method `empty?' for nil:NilClass
+    >> nil.to_s.empty?      # Message chaining
+    => true
+
+Existe um metodo especial para testar se um objeto e nil:
+
+    >> "foo".nil?
+    => false
+    >> "".nil?
+    => false
+    >> nil.nil?
+    => true
+
+A linha de codigo:
+
+    puts "x is not empty" if !x.empty?
+
+mostra que, em ruby, e possivel usar o if para executar algo somente se a condiçao posterior ao if for atendida. unless funciona de forma similar:
+
+    >> string = "foobar"
+    >> puts "The string '#{string}' is nonempty." unless string.empty?
+    The string 'foobar' is nonempty.
+    => nil
+
+O objeto nil e especial uma vez que ele e o unico objeto de ruby, em um contexto booleano, considerado falso(alem, claro do proprio false):
+
+>> !!nil
+=> false
+
+Todos os outros objetos, incluindo 0, sao verdadeiros:
+
+>> !!0
+=> true
 
 
 
