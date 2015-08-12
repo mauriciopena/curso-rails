@@ -103,6 +103,37 @@ Outra maneira (menos elegante) de fazer a mesma coisa:
 	>> "#{first_name} #{last_name}"    # The equivalent interpolation
 	=> "Lucas Pratto"
 
+**Printing**
+
+    >> puts "foo"     # put string
+    foo
+    => nil
+
+o comando puts automaticamente um \n na saida. Ja o metodo print, nao:
+
+    >> print "foo"    # print string (same as puts, but without the newline)
+    foo=> nil
+    >> print "foo\n"  # Same as puts "foo"
+    foo
+    => nil
+
+**Strings com aspas simples**
+
+Aparentemente aspas duplas e simples são a mesma coisa:
+
+    >> 'foo'          # A single-quoted string
+    => "foo"
+    >> 'foo' + 'bar'
+    => "foobar"
+
+Mas existe uma diferença importante; Não é possível usar interpolação em strings de aspas simples:
+
+    >> '#{foo} bar'     # Single-quoted strings don't allow interpolation
+    => "\#{foo} bar"
+
+
+
+
 
 
 
