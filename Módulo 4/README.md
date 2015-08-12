@@ -219,13 +219,16 @@ mostra que, em ruby, e possivel usar o if para executar algo somente se a condi√
 
 O objeto nil e especial uma vez que ele e o unico objeto de ruby, em um contexto booleano, considerado falso(alem, claro do proprio false):
 
->> !!nil
-=> false
+    >> !!nil
+    => false
 
 Todos os outros objetos, incluindo 0, sao verdadeiros:
 
->> !!0
-=> true
+    >> !!0
+    => true
+
+**Definindo m√©todos**
+
 
 
 
