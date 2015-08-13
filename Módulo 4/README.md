@@ -321,6 +321,38 @@ Também é possível adicionar elementos em um array usando o método push ou se
     >> a << "foo" << "bar"        # Chaining array pushes
     => [42, 8, 17, 6, 7, "foo", "bar"]
 
+o metodo join faz o servico contrario do split:
+
+    >> a
+    => [42, 8, 17, 7, "foo", "bar"]
+    >> a.join                       # Join on nothing.
+    => "428177foobar"
+    >> a.join(', ')                 # Join on comma-space.
+    => "42, 8, 17, 7, foo, bar"
+
+Ranges são muito utulizados em conjunto com arrays:
+
+    >> 0..9
+    => 0..9
+    >> 0..9.to_a              # Oops, call to_a on 9.
+    NoMethodError: undefined method `to_a' for 9:Fixnum
+    >> (0..9).to_a            # Use parentheses to call to_a on the range.
+    => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+Ranges são muito úteis para extrair partes de arrays:
+
+    >> a = %w[foo bar baz quux]         # Use %w to make a string array.
+    => ["foo", "bar", "baz", "quux"]
+    >> a[0..2]
+    => ["foo", "bar", "baz"]
+    >> a = (0..9).to_a
+    => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    >> a[2..(a.length-1)]               # Explicitly use the array's length.
+    => [2, 3, 4, 5, 6, 7, 8, 9]
+    >> a[2..-1]                         # Use the index -1 trick.
+    => [2, 3, 4, 5, 6, 7, 8, 9]
+
+
 
 
 
