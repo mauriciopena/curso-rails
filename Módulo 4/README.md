@@ -229,6 +229,37 @@ Todos os outros objetos, incluindo 0, sao verdadeiros:
 
 **Definição de métodos**
 
+    >> def string_message(str = '')
+    >>   if str.empty?
+    >>     "It's an empty string!"
+    >>   else
+    >>     "The string is nonempty."
+    >>   end
+    >> end
+    => :string_message
+    >> puts string_message("foobar")
+    The string is nonempty.
+    >> puts string_message("")
+    It's an empty string!
+    >> puts string_message
+    It's an empty string!
+
+**De volta ao title helper**
+
+    module ApplicationHelper
+    
+      # Returns the full title on a per-page basis.       # Documentation comment
+      def full_title(page_title = '')                     # Method def, optional arg
+        base_title = "Ruby on Rails Tutorial Sample App"  # Variable assignment
+        if page_title.empty?                              # Boolean test
+          base_title                                      # Implicit return
+        else
+          page_title + " | " + base_title                 # String concatenation
+        end
+      end
+    end
+
+
 
 
 
