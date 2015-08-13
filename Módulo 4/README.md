@@ -381,6 +381,50 @@ As chaves são indicadores de bloco, mas não existe uma sintaxe alternativa:
     10
     => 1..5
 
+blocos podem ter mais de uma linha:
+
+    >> (1..5).each do |number|
+    ?>   puts 2 * number
+    >>   puts '--'
+    >> end
+    2
+    --
+    4
+    --
+    6
+    --
+    8
+    --
+    10
+    --
+    => 1..5
+
+vejamos outros exemplos:
+
+    >> 3.times { puts "Betelgeuse!" }   # 3.times takes a block with no variables.
+    "Betelgeuse!"
+    "Betelgeuse!"
+    "Betelgeuse!"
+    => 3
+    >> (1..5).map { |i| i**2 }          # The ** notation is for 'power'.
+    => [1, 4, 9, 16, 25]
+    >> %w[a b c]                        # Recall that %w makes string arrays.
+    => ["a", "b", "c"]
+    >> %w[a b c].map { |char| char.upcase }
+    => ["A", "B", "C"]
+    >> %w[A B C].map { |char| char.downcase }
+    => ["a", "b", "c"]
+
+As duas últimas expressões acima pode também ser escritas assim:
+
+    >> %w[A B C].map { |char| char.downcase }
+    => ["a", "b", "c"]
+    >> %w[A B C].map(&:downcase)
+    => ["a", "b", "c"]
+
+**Hashes e symbols**
+
+
 
 
 
