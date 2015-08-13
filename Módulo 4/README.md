@@ -513,6 +513,20 @@ Podemos usar nossa classe assim:
 
 Já que word é uma string, faz mais sentido que nossa classe herde de String:
 
+    >> class Word < String             # Word inherits from String.
+    >>   # Returns true if the string is its own reverse.
+    >>   def palindrome?
+    >>     self == self.reverse        # self is the string itself.
+    >>   end
+    >> end
+    => nil
+    >> s = Word.new("level")    # Make a new Word, initialized with "level".
+    => "level"
+    >> s.palindrome?            # Words have the palindrome? method.
+    => true
+    >> s.length                 # Words also inherit all the normal string methods.
+    => 5
+
 
 
 
