@@ -227,7 +227,7 @@ Todos os outros objetos, incluindo 0, sao verdadeiros:
     >> !!0
     => true
 
-**Definindo métodos**
+**Definição de métodos**
 
 
 
