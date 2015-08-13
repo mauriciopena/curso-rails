@@ -259,6 +259,68 @@ Todos os outros objetos, incluindo 0, sao verdadeiros:
       end
     end
 
+**arrays e ranges**
+
+    >>  "foo bar     baz".split     # Split a string into a three-element array.
+    => ["foo", "bar", "baz"]
+    >> "fooxbarxbazx".split('x')
+    => ["foo", "bar", "baz"]
+    >> a = [42, 8, 17]
+    => [42, 8, 17]
+    >> a[0]               # Ruby uses square brackets for array access.
+    => 42
+    >> a[1]
+    => 8
+    >> a[2]
+    => 17
+    >> a[-1]              # Indices can even be negative!
+    => 17
+    >> a.first
+    => 42
+    >> a.second
+    => 8
+    >> a.last
+    => 17
+    >> a.last == a[-1]    # Comparison using ==
+    => true
+
+arrays respondem a vários métodos:
+
+    >> a
+    => [42, 8, 17]
+    >> x = a.length
+    => 3
+    >> a.empty?
+    => false
+    >> a.include?(42)
+    => true
+    >> a.sort
+    => [8, 17, 42]
+    >> a.reverse
+    => [17, 8, 42]
+    >> a.shuffle
+    => [17, 42, 8]
+    >> a
+    => [42, 8, 17]
+
+Repare que nenhum dos métodos acima altera o objeto a propriamente dito. Para mudar o array precisamos usar o sinal de exclamação no final do método:
+
+    >> a
+    => [42, 8, 17]
+    >> a.sort!
+    => [8, 17, 42]
+    >> a
+    => [8, 17, 42]
+
+Também é possível adicionar elementos em um array usando o método push ou seu operador equivalente, <<:
+
+    >> a.push(6)                  # Pushing 6 onto an array
+    => [42, 8, 17, 6]
+    >> a << 7                     # Pushing 7 onto an array
+    => [42, 8, 17, 6, 7]
+    >> a << "foo" << "bar"        # Chaining array pushes
+    => [42, 8, 17, 6, 7, "foo", "bar"]
+
 
 
 
