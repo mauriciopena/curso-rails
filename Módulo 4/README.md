@@ -442,6 +442,44 @@ Podemos definir mais de um elemento de uma vez usando keys e valores serarados p
     >> user = { "first_name" => "Lucas", "last_name" => "Pratto" }
     => {"last_name"=>"Lucas", "first_name"=>"Pratto"}
 
+Até agora usamos strings como chaves de hash, mas o mais comum em ruby é utilizar simbolos. Símbolos se parecem com strings, mas são precedidos por dois pontos e não são cercados por aspas:
+
+    >> "name".split('')
+    => ["n", "a", "m", "e"]
+    >> :name.split('')
+    NoMethodError: undefined method `split' for :name:Symbol
+    >> "foobar".reverse
+    => "raboof"
+    >> :foobar.reverse
+    NoMethodError: undefined method `reverse' for :foobar:Symbol
+
+direfente de strings , nem todos os caracteres são permitidos:
+
+    >> :foo-bar
+    NameError: undefined local variable or method `bar' for main:Object
+    >> :2foo
+    SyntaxError
+
+usando símbolos podemos definir um hash assim:
+
+    >> user = { :name => "Lucas Pratto", :email => "pratto@gnv.com" }
+    => {:name=>"Lucas Pratto", :email=>"pratto@gnv.com"}
+    >> user[:name]              # Access the value corresponding to :name.
+    => "Lucas Pratto"
+    >> user[:password]          # Access the value of an undefined key.
+    => nil
+
+existe uma sintaxe especial para usar símbolos em hashes:
+
+    >> h1 = { :name => "Lucas Pratto", :email => "pratto@gnv.com" }
+    => {:name=>"Lucas Pratto", :email=>"pratto@gnv.com"}
+    >> h2 = { name: "Lucas Pratto", email: "pratto@gnv.com" }
+    => {:name=>"Lucas Pratto", :email=>"pratto@gnv.com"}
+    >> h1 == h2
+    => true
+
+
+
 
 
 
