@@ -482,12 +482,37 @@ Hahes podem conter outros hashes:
 
     >> params = {}        # Define a hash called 'params' (short for 'parameters').
     => {}
-    >> params[:user] = { name: "Michael Hartl", email: "mhartl@example.com" }
-    => {:name=>"Michael Hartl", :email=>"mhartl@example.com"}
+    >> params[:user] = { name: "Lucas Pratto", email: "pratto@gnv.com" }
+    => {:name=>"Lucas Pratto", :email=>"pratto@gnv.com"}
     >> params
-    => {:user=>{:name=>"Michael Hartl", :email=>"mhartl@example.com"}}
+    => {:user=>{:name=>"Lucas Pratto", :email=>"pratto@gnv.com"}}
     >>  params[:user][:email]
-    => "mhartl@example.com"
+    => "pratto@gnv.com"
+
+**Ruby classes**
+
+O Ruby, como muitas linguagens orientadas a objetos, usa classes para organizar métodos; essas classe podem então ser instanciadas para criar objetos.
+
+Vamos criar uma classe chamada Word com um método chamado palindrome?:
+
+    >> class Word
+    >>   def palindrome?(string)
+    >>     string == string.reverse
+    >>   end
+    >> end
+    => :palindrome?
+
+Podemos usar nossa classe assim:
+
+    >> w = Word.new              # Make a new Word object.
+    => #<Word:0x22d0b20>
+    >> w.palindrome?("foobar")
+    => false
+    >> w.palindrome?("level")
+    => true
+
+Já que word é uma string, faz mais sentido que nossa classe herde de String:
+
 
 
 
