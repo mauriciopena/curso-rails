@@ -352,6 +352,37 @@ Ranges são muito úteis para extrair partes de arrays:
     >> a[2..-1]                         # Use the index -1 trick.
     => [2, 3, 4, 5, 6, 7, 8, 9]
 
+Ranges tambem funcionam com letras:
+
+    >> ('a'..'e').to_a
+    => ["a", "b", "c", "d", "e"]
+
+**Blocks**
+
+Arrays and ranges respondem a vários métodos que aceitam blocos:
+
+    >> (1..5).each { |i| puts 2 * i }
+    2
+    4
+    6
+    8
+    10
+    => 1..5
+
+As chaves são indicadores de bloco, mas não existe uma sintaxe alternativa:
+
+    >> (1..5).each do |i|
+    ?>   puts 2 * i
+    >> end
+    2
+    4
+    6
+    8
+    10
+    => 1..5
+
+
+
 
 
 
