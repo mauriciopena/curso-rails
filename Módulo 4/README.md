@@ -424,6 +424,25 @@ As duas últimas expressões acima pode também ser escritas assim:
 
 **Hashes e symbols**
 
+Hashes sao, basicamente, arrays que podem ter indices que nao sao inteiros. Na verdade os índices , ou keys, podem ser praticamente qualquer tipo de objeto, por exemplo strings:
+
+    >> user = {}                          # {} is an empty hash.
+    => {}
+    >> user["first_name"] = "Lucas"     # Key "first_name", value "Lucas"
+    => "Lucas"
+    >> user["last_name"] = "Pratto"        # Key "last_name", value "Pratto"
+    => "Pratto"
+    >> user["first_name"]                 # Element access is like arrays.
+    => "Lucas"
+    >> user                               # A literal representation of the hash
+    => {"last_name"=>"Lucas", "first_name"=>"Pratto"}
+
+Podemos definir mais de um elemento de uma vez usando keys e valores serarados por =>:
+
+    >> user = { "first_name" => "Lucas", "last_name" => "Pratto" }
+    => {"last_name"=>"Lucas", "first_name"=>"Pratto"}
+
+
 
 
 
