@@ -52,5 +52,55 @@
     <%= link_to image_tag("rails.png", alt: "Rails logo"),
                 'http://rubyonrails.org/' %>
 
+**Bootstrap**
+
+http://getbootstrap.com/
+
+> Gemfile
+
+    gem 'bootstrap-sass'
+
+instalar a gem:
+
+    $ bundle install
+
+vamos criar um arquivo para conter nosso código css:
+
+    $ touch app/assets/stylesheets/custom.css.scss
+
+> app/assets/stylesheets/custom.css.scss
+
+    @import "bootstrap-sprockets";
+    @import "bootstrap";
+
+> app/assets/stylesheets/custom.css.scss
+
+    @import "bootstrap-sprockets";
+    @import "bootstrap";
+    
+    /* universal */
+    
+    body {
+      padding-top: 60px;
+    }
+    
+    section {
+      overflow: auto;
+    }
+    
+    textarea {
+      resize: vertical;
+    }
+    
+    .center {
+      text-align: center;
+    }
+    
+    .center h1 {
+      margin-bottom: 10px;
+    }
+
+
+
 
 
