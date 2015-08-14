@@ -527,6 +527,21 @@ Já que word é uma string, faz mais sentido que nossa classe herde de String:
     >> s.length                 # Words also inherit all the normal string methods.
     => 5
 
+**Modificando classes existentes**
+
+    >> "level".palindrome?
+    NoMethodError: undefined method `palindrome?' for "level":String
+
+    >> class String
+    >>   # Returns true if the string is its own reverse.
+    >>   def palindrome?
+    >>     self == self.reverse
+    >>   end
+    >> end
+    => nil
+    >> "deified".palindrome?
+    => true
+
 
 
 
