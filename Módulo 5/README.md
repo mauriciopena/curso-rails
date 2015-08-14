@@ -260,6 +260,7 @@ vamos criar um arquivo para conter nosso código css:
       margin-left: 15px;
     }
 
+**Sass and the asset pipeline**
 
 
 
