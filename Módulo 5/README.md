@@ -453,6 +453,43 @@ Cada uma dessas rotas tem 2 variações, _path e _url, por exemplo:
     root_path -> '/'
     root_url  -> 'http://www.example.com/'
 
+**Usando as named_routes**
+
+> app/views/layouts/_header.html.erb
+
+    <header class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container">
+        <%= link_to "sample app", root_path, id: "logo" %>
+        <nav>
+          <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Home",    root_path %></li>
+            <li><%= link_to "Help",    help_path %></li>
+            <li><%= link_to "Log in", '#' %></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+> app/views/layouts/_footer.html.erb
+
+    <footer class="footer">
+      <small>
+        The <a href="http://www.railstutorial.org/">Ruby on Rails Tutorial</a>
+        by <a href="http://www.michaelhartl.com/">Michael Hartl</a>
+      </small>
+      <nav>
+        <ul>
+          <li><%= link_to "About",   about_path %></li>
+          <li><%= link_to "Contact", contact_path %></li>
+          <li><a href="http://news.railstutorial.org/">News</a></li>
+        </ul>
+      </nav>
+    </footer>
+
+
+
+
+
 
 
 
