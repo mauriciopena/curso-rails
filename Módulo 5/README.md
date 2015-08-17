@@ -417,6 +417,42 @@ Nosso SCSS reescrito fica assim:
     }
 
 
+**Layout Links**
+
+Vamos agora implementar os links do nosso menu de navegaçao e substituir ’#’. Poderiamos usar links hardcodeded assim:
+
+    <a href="/static_pages/about">About</a>
+
+mas em Rails existe uma maneira melhor, usando named routes: 
+
+    <%= link_to "About", about_path %>
+
+The full list of our planned links appears in Table 5.1, along with their mapping to URLs and routes. We took care of the first route in Section 3.4.4, and we’ll have implemented all but the last one by the end of this chapter. (We’ll make the last one in Chapter 8.)
+
+    Page 	    URL 	     Named route
+    Home 	    / 	         root_path
+    About 	    /about 	     about_path
+    Help 	    /help 	     help_path
+    Contact 	/contact 	 contact_path
+    Sign up 	/signup 	 signup_path
+    Log in 	    /login 	     login_path
+
+
+
+> config/routes.rb
+
+    Rails.application.routes.draw do
+      root             'static_pages#home'
+      get 'help'    => 'static_pages#help'
+      get 'about'   => 'static_pages#about'
+      get 'contact' => 'static_pages#contact'
+    end
+
+Cada uma dessas rotas tem 2 variações, _path e _url, por exemplo:
+
+    root_path -> '/'
+    root_url  -> 'http://www.example.com/'
+
 
 
 
