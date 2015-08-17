@@ -524,6 +524,45 @@ vejamos outros usos do assert_select:
     assert_select "a[href=?]", ’/’, text: "foo" <a href="/">foo</a>
 
 
+**Registro de Usuarios: O primeiro passo**
+
+    $ ./bin/rails generate controller Users new
+
+> config/routes.rb
+
+Rails.application.routes.draw do
+  root             'static_pages#home'
+  get 'help'    => 'static_pages#help'
+  get 'about'   => 'static_pages#about'
+  get 'contact' => 'static_pages#contact'
+  get 'signup'  => 'users#new'
+end
+
+> app/views/static_pages/home.html.erb
+
+    <div class="center jumbotron">
+      <h1>Welcome to the Sample App</h1>
+    
+      <h2>
+        This is the home page for the
+        <a href="http://www.railstutorial.org/">Ruby on Rails Tutorial</a>
+        sample application.
+      </h2>
+    
+      <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+    </div>
+    
+    <%= link_to image_tag("rails.png", alt: "Rails logo"),
+                'http://rubyonrails.org/' %>
+
+> app/views/users/new.html.erb
+
+    <% provide(:title, 'Sign up') %>
+    <h1>Sign up</h1>
+    <p>This will be a signup page for new users.</p>
+
+
+
 
 
 
