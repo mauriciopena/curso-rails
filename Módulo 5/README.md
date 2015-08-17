@@ -312,6 +312,113 @@ passa pelo processador de coffeescript, e
 
 passa pelo CoffeeScript primeiro e depois ERb.
 
+**Syntactically awesome stylesheets**
+
+Sass é uma linguadem feita exclusivamente para escrever estilos em cascata e tem várias features que facilitam o uso do CSS.  
+
+**Nesting**
+
+    .center {
+      text-align: center;
+    }
+    
+    .center h1 {
+      margin-bottom: 10px;
+    }
+
+Em Sass podemos escrever assim:
+
+    .center {
+      text-align: center;
+      h1 {
+        margin-bottom: 10px;
+      }
+    }
+
+Outro exemplo:
+
+    #logo {
+      float: left;
+      margin-right: 10px;
+      font-size: 1.7em;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      padding-top: 9px;
+      font-weight: bold;
+    }
+    
+    #logo:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+em Sass:
+
+    #logo {
+      float: left;
+      margin-right: 10px;
+      font-size: 1.7em;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      padding-top: 9px;
+      font-weight: bold;
+      &:hover {
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+
+**Variáveis**
+
+Sass permite a definição de variáveis, possibilitanto a escrita de código mais organizado e com menos duplicação. Por exemplo:
+
+    h2 {
+      .
+      .
+      .
+      color: #777;
+    }
+    .
+    .
+    .
+    footer {
+      .
+      .
+      .
+      color: #777;
+    }
+
+Nesse caso #777, um cinza claro pode ser uma variável definida assim:
+
+    $light-gray: #777;
+
+Nosso SCSS reescrito fica assim:
+
+    $light-gray: #777;
+    .
+    .
+    .
+    h2 {
+      .
+      .
+      .
+      color: $light-gray;
+    }
+    .
+    .
+    .
+    footer {
+      .
+      .
+      .
+      color: $light-gray;
+    }
+
+
+
+
 
 
 
