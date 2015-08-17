@@ -486,6 +486,44 @@ Cada uma dessas rotas tem 2 variações, _path e _url, por exemplo:
       </nav>
     </footer>
 
+**Layout link tests**
+
+    $ ./bin/rails generate integration_test site_layout
+
+Nosso plano para testar a estrutura HTML do nosso site sara o seguinte:
+
+- Dar um Get no root path (Home page)
+- Verificar se o template correto foi renderizado
+- Verificar se os links Home, Help, About, e Contact estao funcionando corretamente
+
+> test/integration/site_layout_test.rb
+
+    require 'test_helper'
+    
+    class SiteLayoutTest < ActionDispatch::IntegrationTest
+    
+      test "layout links" do
+        get root_path
+        assert_template 'static_pages/home'
+        assert_select "a[href=?]", root_path, count: 2
+        assert_select "a[href=?]", help_path
+        assert_select "a[href=?]", about_path
+        assert_select "a[href=?]", contact_path
+      end
+    end
+
+vejamos outros usos do assert_select:
+
+    Code 	                                   Matching HTML
+    assert_select "div" 	                   <div>foobar</div>
+    assert_select "div", "foobar"              <div>foobar</div>
+    assert_select "div.nav" 	               <div class="nav">foobar</div>
+    assert_select "div#profile"                <div id="profile">foobar</div>
+    assert_select "div[name=yo]"               <div name="yo">hey</div>
+    assert_select "a[href=?]", ’/’, count: 1    <a href="/">foo</a>
+    assert_select "a[href=?]", ’/’, text: "foo" <a href="/">foo</a>
+
+
 
 
 
