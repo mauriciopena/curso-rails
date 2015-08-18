@@ -82,6 +82,158 @@ Para que a aplicação funcione em modo produção é preciso criar o banco de d
       @include box_sizing;
     }
 
+**Users resource**
+
+> config/routes.rb
+
+    Rails.application.routes.draw do
+      root             'static_pages#home'
+      get 'help'    => 'static_pages#help'
+      get 'about'   => 'static_pages#about'
+      get 'contact' => 'static_pages#contact'
+      get 'signup'  => 'users#new'
+      resources :users
+    end
+
+> app/views/users/show.html.erb
+
+    <%= @user.name %>, <%= @user.email %>
+
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+    
+      def show
+        @user = User.find(params[:id])
+      end
+    
+      def new
+      end
+    end
+
+**Debugger**
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+    
+      def show
+        @user = User.find(params[:id])
+        debugger
+      end
+    
+      def new
+      end
+    end
+
+
+**Gravatar e sidebar**
+
+> app/views/users/show.html.erb
+
+    <% provide(:title, @user.name) %>
+    <h1>
+      <%= gravatar_for @user %>
+      <%= @user.name %>
+    </h1>
+
+> app/helpers/users_helper.rb
+
+    module UsersHelper
+    
+      # Returns the Gravatar for the given user.
+      def gravatar_for(user)
+        gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
+        gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}"
+        image_tag(gravatar_url, alt: user.name, class: "gravatar")
+      end
+    end
+
+
+> app/views/users/show.html.erb
+
+    <% provide(:title, @user.name) %>
+    <div class="row">
+      <aside class="col-md-4">
+        <section class="user_info">
+          <h1>
+            <%= gravatar_for @user %>
+            <%= @user.name %>
+          </h1>
+        </section>
+      </aside>
+    </div>
+
+> app/assets/stylesheets/custom.css.scss
+
+    .
+    .
+    .
+    /* sidebar */
+    
+    aside {
+      section.user_info {
+        margin-top: 20px;
+      }
+      section {
+        padding: 10px 0;
+        margin-top: 20px;
+        &:first-child {
+          border: 0;
+          padding-top: 0;
+        }
+        span {
+          display: block;
+          margin-bottom: 3px;
+          line-height: 1;
+        }
+        h1 {
+          font-size: 1.4em;
+          text-align: left;
+          letter-spacing: -1px;
+          margin-bottom: 3px;
+          margin-top: 0px;
+        }
+      }
+    }
+    
+    .gravatar {
+      float: left;
+      margin-right: 10px;
+    }
+    
+    .gravatar_edit {
+      margin-top: 15px;
+    }
+
+**Formulário de registro de usuário**
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/signup_mockup_bootstrap.png)
+
+    $ ./bin/rake db:migrate:reset
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+    
+      def show
+        @user = User.find(params[:id])
+      end
+    
+      def new
+        @user = User.new
+      end
+    end
+
+
+
+
+
+
+
+
+
 
 
 
