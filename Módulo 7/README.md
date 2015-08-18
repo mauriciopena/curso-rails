@@ -226,6 +226,155 @@ Para que a aplicação funcione em modo produção é preciso criar o banco de d
       end
     end
 
+> app/views/users/new.html.erb
+
+    <% provide(:title, 'Sign up') %>
+    <h1>Sign up</h1>
+    
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <%= form_for(@user) do |f| %>
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+    
+          <%= f.label :email %>
+          <%= f.email_field :email %>
+    
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+    
+          <%= f.label :password_confirmation, "Confirmation" %>
+          <%= f.password_field :password_confirmation %>
+    
+          <%= f.submit "Create my account", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+
+> app/assets/stylesheets/custom.css.scss
+
+    .
+    .
+    .
+    /* forms */
+    
+    input, textarea, select, .uneditable-input {
+      border: 1px solid #bbb;
+      width: 100%;
+      margin-bottom: 15px;
+      @include box_sizing;
+    }
+    
+    input {
+      height: auto !important;
+    }
+
+
+**Signups mal sucedidos**
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/signup_failure_mockup_bootstrap.png)
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+    
+      def show
+        @user = User.find(params[:id])
+      end
+    
+      def new
+        @user = User.new
+      end
+    
+      def create
+        @user = User.new(params[:user])    # Not the final implementation!
+        if @user.save
+          # Handle a successful save.
+        else
+          render 'new'
+        end
+      end
+    end
+
+**Strong parameters**
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      .
+      .
+      .
+      def create
+        @user = User.new(user_params)
+        if @user.save
+          # Handle a successful save.
+        else
+          render 'new'
+        end
+      end
+    
+      private
+    
+        def user_params
+          params.require(:user).permit(:name, :email, :password,
+                                       :password_confirmation)
+        end
+    end
+
+**Mensagens de erro no Signup**
+
+    $ ./bin/rails console
+    >> user = User.new(name: "Foo Bar", email: "foo@invalid",
+    ?>                 password: "dude", password_confirmation: "dude")
+    >> user.save
+    => false
+    >> user.errors.full_messages
+    => ["Email is invalid", "Password is too short (minimum is 6 characters)"]
+
+> app/views/users/new.html.erb
+
+    <% provide(:title, 'Sign up') %>
+    <h1>Sign up</h1>
+    
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <%= form_for(@user) do |f| %>
+          <%= render 'shared/error_messages' %>
+    
+          <%= f.label :name %>
+          <%= f.text_field :name, class: 'form-control' %>
+    
+          <%= f.label :email %>
+          <%= f.email_field :email, class: 'form-control' %>
+    
+          <%= f.label :password %>
+          <%= f.password_field :password, class: 'form-control' %>
+    
+          <%= f.label :password_confirmation, "Confirmation" %>
+          <%= f.password_field :password_confirmation, class: 'form-control' %>
+    
+          <%= f.submit "Create my account", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+
+> app/views/shared/_error_messages.html.erb
+
+    <% if @user.errors.any? %>
+      <div id="error_explanation">
+        <div class="alert alert-danger">
+          The form contains <%= pluralize(@user.errors.count, "error") %>.
+        </div>
+        <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+
+
 
 
 
