@@ -55,3 +55,34 @@ Para que a aplicação funcione em modo produção é preciso criar o banco de d
       $ ./bin/rake db:migrate RAILS_ENV=production
 
 
+> app/assets/stylesheets/custom.css.scss
+
+    @import "bootstrap-sprockets";
+    @import "bootstrap";
+    
+    /* mixins, variables, etc. */
+    
+    $gray-medium-light: #eaeaea;
+    
+    @mixin box_sizing {
+      -moz-box-sizing:    border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing:         border-box;
+    }
+    .
+    .
+    .
+    /* miscellaneous */
+    
+    .debug_dump {
+      clear: both;
+      float: left;
+      width: 100%;
+      margin-top: 45px;
+      @include box_sizing;
+    }
+
+
+
+
+
