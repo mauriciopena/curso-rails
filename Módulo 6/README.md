@@ -439,6 +439,17 @@ para instalar o bcrypt:
 
 **Criando e autenticando um usuário**
 
+    $ ./bin/rails console
+    >> User.create(name: "Lucas Pratto", email: "pratto@gnv.com",
+    ?>             password: "cha123polim", password_confirmation: "cha123polim")
+    >> user = User.find_by(email: "pratto@gnv.com")
+    >> user.authenticate("senha errada")
+    false
+    >> user.authenticate("cha123vez")
+    false
+    >> user.authenticate("cha123polim")
+    => #<User id: 1, name: "Lucas Pratto", email: "pratto@gnv.com", created_at: "2015-07-25 02:58:28", updated_at: "2015-07-25 02:58:28", password_digest: "$2a$10$YmQTuuDNOszvu5yi7auOC.F4G//FGhyQSWCpghqRWQW...">
+
 
 
 
