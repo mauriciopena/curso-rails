@@ -247,6 +247,137 @@ $ ./bin/rails generate model User name:string email:string
                         format: { with: VALID_EMAIL_REGEX }
     end
 
+**Validando unicidade**
+
+> test/models/user_test.rb
+
+    require 'test_helper'
+    
+    class UserTest < ActiveSupport::TestCase
+    
+      def setup
+        @user = User.new(name: "Example User", email: "user@example.com")
+      end
+      .
+      .
+      .
+      test "email addresses should be unique" do
+        duplicate_user = @user.dup
+        @user.save
+        assert_not duplicate_user.valid?
+      end
+    end
+
+> app/models/user.rb
+
+    class User < ActiveRecord::Base
+      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+
+      validates :name,  presence: true, length: { maximum: 50 }   
+      validates :email, presence: true, length: { maximum: 255 },
+                        format: { with: VALID_EMAIL_REGEX },
+                        uniqueness: true
+    end
+
+> test/models/user_test.rb
+
+    require 'test_helper'
+    
+    class UserTest < ActiveSupport::TestCase
+    
+      def setup
+        @user = User.new(name: "Example User", email: "user@example.com")
+      end
+      .
+      .
+      .
+      test "email addresses should be unique" do
+        duplicate_user = @user.dup
+        duplicate_user.email = @user.email.upcase
+        @user.save
+        assert_not duplicate_user.valid?
+      end
+    end
+
+> app/models/user.rb
+
+    class User < ActiveRecord::Base
+      validates :name,  presence: true, length: { maximum: 50 }
+      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+      validates :email, presence: true, length: { maximum: 255 },
+                        format: { with: VALID_EMAIL_REGEX },
+                        uniqueness: { case_sensitive: false }
+    end
+
+**Adicionando íncidices ao banco de dados**
+
+    $ ./bin/rails generate migration add_index_to_users_email
+
+> db/migrate/[timestamp]_add_index_to_users_email.rb
+
+    class AddIndexToUsersEmail < ActiveRecord::Migration
+      def change
+        add_index :users, :email, unique: true
+      end
+    end
+
+é preciso rodar a migração para criar nosso índice:
+
+    $ ./bin/rake db:migrate
+
+
+Vamos usar um callback do rails chamado before_save para salvar o email sempre em caixa baixa:
+
+> app/models/user.rb
+
+    class User < ActiveRecord::Base
+      before_save { self.email = email.downcase }
+      validates :name,  presence: true, length: { maximum: 50 }
+      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+      validates :email, presence: true, length: { maximum: 255 },
+                        format: { with: VALID_EMAIL_REGEX },
+                        uniqueness: { case_sensitive: false }
+    end
+
+**Implementando uma senha segura**
+
+Para implementar o mecanismo de senha do nosso user model vamos utilizar o método do rails chamando has_secure_password:
+
+    class User < ActiveRecord::Base
+      .
+      .
+      .
+      has_secure_password
+    end
+
+Ao incluir esse método em um model como no exemplo acima teremos as seguintes funcionalidades:
+
+- Salvar uma senha criptografada no atributo password_digest  do banco de dados;
+- Dois atributos virtuais (password and password_confirmation), incluindo validações de presença e garantindo que são iguais
+- Um método authenticate que retorna o usuário se a senha for correta (ou falso se a senha for errada)
+
+Para o has_secure_password funcionar o model precisa ter um atributo chamado password_digest. 
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_model_password_digest_3rd_edition.png)
+
+    $ ./bin/rails generate migration add_password_digest_to_users password_digest:string
+
+vamos rodar a migração:
+
+    $ ./bin/rake db:migrate
+
+> Gemfile
+
+    source 'https://rubygems.org'
+    
+    gem 'rails',                '4.2.2'
+    gem 'bcrypt',               '3.1.7'
+    .
+    .
+    .
+
+
+
 
 
 
