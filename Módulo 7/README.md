@@ -373,6 +373,80 @@ Para que a aplicação funcione em modo produção é preciso criar o banco de d
       </div>
     <% end %>
 
+> app/assets/stylesheets/custom.css.scss
+
+    .
+    .
+    .
+    /* forms */
+    .
+    .
+    .
+    #error_explanation {
+      color: red;
+      ul {
+        color: red;
+        margin: 0 0 30px 0;
+      }
+    }
+    
+    .field_with_errors {
+      @extend .has-error;
+      .form-control {
+        color: $state-danger-text;
+      }
+    }
+
+
+**Testando Signups inválidos**
+
+    $ ./bin/rails generate integration_test users_signup
+
+> test/integration/users_signup_test.rb
+
+    require 'test_helper'
+    
+    class UsersSignupTest < ActionDispatch::IntegrationTest
+    
+      test "invalid signup information" do
+        get signup_path
+        assert_no_difference 'User.count' do
+          post users_path, user: { name:  "",
+                                   email: "user@invalid",
+                                   password:              "foo",
+                                   password_confirmation: "bar" }
+        end
+        assert_template 'users/new'
+      end
+    end
+
+**Signups bem sucedidos**
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/signup_success_mockup_bootstrap.png)
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      .
+      .
+      .
+      def create
+        @user = User.new(user_params)
+        if @user.save
+          redirect_to @user #redirect_to user_url(@user) é equivalente
+        else
+          render 'new'
+        end
+      end
+    
+      private
+    
+        def user_params
+          params.require(:user).permit(:name, :email, :password,
+                                       :password_confirmation)
+        end
+    end
+
 
 
 
