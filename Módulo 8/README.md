@@ -46,6 +46,47 @@
 
 **Buscando e autenticando um usuário**
 
+> app/controllers/sessions_controller.rb
+
+    class SessionsController < ApplicationController
+    
+      def new
+      end
+    
+      def create
+        user = User.find_by(email: params[:session][:email].downcase)
+        if user && user.authenticate(params[:session][:password])
+          # Log the user in and redirect to the user's show page.
+        else
+          # Create an error message.
+          render 'new'
+        end
+      end
+    
+      def destroy
+      end
+    end
+
+**Renderizando com uma mensagem flash**
+
+    $ ./bin/rails generate integration_test users_login
+
+> test/integration/users_login_test.rb
+
+    require 'test_helper'
+    
+    class UsersLoginTest < ActionDispatch::IntegrationTest
+    
+      test "login with invalid information" do
+        get login_path
+        assert_template 'sessions/new'
+        post login_path, session: { email: "", password: "" }
+        assert_template 'sessions/new'
+        assert_not flash.empty?
+        get root_path
+        assert flash.empty?
+      end
+    end
 
 
 
