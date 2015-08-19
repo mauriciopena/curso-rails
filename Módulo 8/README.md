@@ -88,6 +88,73 @@
       end
     end
 
+> app/controllers/sessions_controller.rb
+
+    class SessionsController < ApplicationController
+    
+      def new
+      end
+    
+      def create
+        user = User.find_by(email: params[:session][:email].downcase)
+        if user && user.authenticate(params[:session][:password])
+          # Log the user in and redirect to the user's show page.
+        else
+          flash.now[:danger] = 'Invalid email/password combination'
+          render 'new'
+        end
+      end
+    
+      def destroy
+      end
+    end
+
+**Logging in**
+
+> app/controllers/application_controller.rb
+
+    class ApplicationController < ActionController::Base
+      protect_from_forgery with: :exception
+      include SessionsHelper
+    end
+
+> app/helpers/sessions_helper.rb
+
+    module SessionsHelper
+    
+      # Logs in the given user.
+      def log_in(user)
+        session[:user_id] = user.id
+      end
+    end
+
+> app/controllers/sessions_controller.rb
+
+    class SessionsController < ApplicationController
+    
+      def new
+      end
+    
+      def create
+        user = User.find_by(email: params[:session][:email].downcase)
+        if user && user.authenticate(params[:session][:password])
+          log_in user
+          redirect_to user
+        else
+          flash.now[:danger] = 'Invalid email/password combination'
+          render 'new'
+        end
+      end
+    
+      def destroy
+      end
+    end
+
+
+
+
+
+
 
 
 
