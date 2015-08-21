@@ -150,6 +150,94 @@
       end
     end
 
+**Current user**
+
+> app/helpers/sessions_helper.rb
+
+    module SessionsHelper
+      # Logs in the given user.
+      def log_in(user)
+        session[:user_id] = user.id
+      end
+    
+    	# Returns the current logged-in user (if any).
+      def current_user
+      	# if @current_user.nil?
+    		#   @current_user = User.find_by(id: session[:user_id])
+    		# else
+    		#   @current_user
+    		# end
+    		# @current_user = @current_user || User.find_by(id: session[:user_id])
+        @current_user ||= User.find_by(id: session[:user_id])
+      end
+      
+    end
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/login_success_mockup.png)
+
+
+> app/helpers/sessions_helper.rb
+
+    module SessionsHelper
+    
+      # Logs in the given user.
+      def log_in(user)
+        session[:user_id] = user.id
+      end
+    
+      # Returns the current logged-in user (if any).
+      def current_user
+        @current_user ||= User.find_by(id: session[:user_id])
+      end
+    
+      # Returns true if the user is logged in, false otherwise.
+      def logged_in?
+        !current_user.nil?
+      end
+    end
+
+> app/views/layouts/_header.html.erb
+
+    <header class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container">
+        <%= link_to "sample app", root_path, id: "logo" %>
+        <nav>
+          <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Help", help_path %></li>
+            <% if logged_in? %>
+              <li><%= link_to "Users", '#' %></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  Account <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "Profile", current_user %></li>
+                  <li><%= link_to "Settings", '#' %></li>
+                  <li class="divider"></li>
+                  <li>
+                    <%= link_to "Log out", logout_path, method: "delete" %>
+                  </li>
+                </ul>
+              </li>
+            <% else %>
+              <li><%= link_to "Log in", login_path %></li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+> app/assets/javascripts/application.js
+
+    //= require jquery
+    //= require jquery_ujs
+    //= require bootstrap
+    //= require turbolinks
+    //= require_tree .
+
+
+
 
 
 
