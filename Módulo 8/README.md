@@ -237,6 +237,109 @@
     //= require_tree .
 
 
+**Testando mudanças no layout**
+
+vamos fazer um teste de integração com os seguintes passos:
+
+- Visitar o login path.
+- Postar informações válidas para o sessions path.
+- Verificar se o link de login desapare.
+- Verificar se o link de logout aparece.
+- Verificar se o link de profile aparece.
+
+> app/models/user.rb
+
+    class User < ActiveRecord::Base
+      before_save { self.email = email.downcase }
+      validates :name,  presence: true, length: { maximum: 50 }
+      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+      validates :email, presence: true, length: { maximum: 255 },
+                        format: { with: VALID_EMAIL_REGEX },
+                        uniqueness: { case_sensitive: false }
+      has_secure_password
+      validates :password, presence: true, length: { minimum: 6 }
+    
+      # Returns the hash digest of the given string.
+      def User.digest(string)
+        cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                      BCrypt::Engine.cost
+        BCrypt::Password.create(string, cost: cost)
+      end
+    end
+
+> test/fixtures/users.yml
+
+    michael:
+      name: Michael Example
+      email: michael@example.com
+      password_digest: <%= User.digest('password') %>
+
+> test/integration/users_login_test.rb
+
+    require 'test_helper'
+    
+    class UsersLoginTest < ActionDispatch::IntegrationTest
+    
+      def setup
+        @user = users(:michael)
+      end
+      .
+      .
+      .
+      test "login with valid information" do
+        get login_path
+        post login_path, session: { email: @user.email, password: 'password' }
+        assert_redirected_to @user
+        follow_redirect!
+        assert_template 'users/show'
+        assert_select "a[href=?]", login_path, count: 0
+        assert_select "a[href=?]", logout_path
+        assert_select "a[href=?]", user_path(@user)
+      end
+    end
+
+**Login automático ao se registrar**
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+    
+      def show
+        @user = User.find(params[:id])
+      end
+    
+      def new
+        @user = User.new
+      end
+    
+      def create
+        @user = User.new(user_params)
+        if @user.save
+          log_in @user
+          flash[:success] = "Welcome to the Sample App!"
+          redirect_to @user
+        else
+          render 'new'
+        end
+      end
+    
+      private
+    
+        def user_params
+          params.require(:user).permit(:name, :email, :password,
+                                       :password_confirmation)
+        end
+    end
+
+
+
+
+ 
+
+
+
+
+
 
 
 
