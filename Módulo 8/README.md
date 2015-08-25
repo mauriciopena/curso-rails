@@ -441,6 +441,14 @@ vamos fazer um teste de integração com os seguintes passos:
 
 **Remember me**
 
+nossa estrategia para criar uma sessao de usuario persistente sera a seguinte:
+
+ 1. Criar uma string randômica para ser usuada como token.
+ 2. Gravar o token em um cookie no browser com uma data de expiração num futuro distante.
+ 3. Gerar um hash a partir do token e salvá-lo no banco de dados.
+ 4. Gravar uma versão criptografada do id do usuário em um cookie do browser.
+ 5. Quando em posse de um cookie que contenha um id de usuário válido, buscar o usuário no banco de dados usando esse id e verificar se o token bate com o hash associado que se encontra no banco de dados.
+
 
 
 
