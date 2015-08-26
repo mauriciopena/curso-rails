@@ -331,6 +331,212 @@ end
         end
     end
 
+> test/integration/users_edit_test.rb
 
+    require 'test_helper'
+    
+    class UsersEditTest < ActionDispatch::IntegrationTest
+    
+      def setup
+        @user = users(:michael)
+      end
+    
+      test "unsuccessful edit" do
+        log_in_as(@user)
+        get edit_user_path(@user)
+        .
+        .
+        .
+      end
+    
+      test "successful edit" do
+        log_in_as(@user)
+        get edit_user_path(@user)
+        .
+        .
+        .
+      end
+    end
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      # before_action :logged_in_user, only: [:edit, :update]
+      .
+      .
+      .
+    end
+
+> test/controllers/users_controller_test.rb
+
+    require 'test_helper'
+    
+    class UsersControllerTest < ActionController::TestCase
+    
+      def setup
+        @user = users(:michael)
+      end
+    
+      test "should get new" do
+        get :new
+        assert_response :success
+      end
+    
+      test "should redirect edit when not logged in" do
+        get :edit, id: @user
+        assert_not flash.empty?
+        assert_redirected_to login_url
+      end
+    
+      test "should redirect update when not logged in" do
+        patch :update, id: @user, user: { name: @user.name, email: @user.email }
+        assert_not flash.empty?
+        assert_redirected_to login_url
+      end
+    end
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      before_action :logged_in_user, only: [:edit, :update]
+      .
+      .
+      .
+    end
+
+**Verificando se o usuário logado tem autorização**
+
+> test/fixtures/users.yml
+
+    michael:
+      name: Michael Example
+      email: michael@example.com
+      password_digest: <%= User.digest('password') %>
+    
+    archer:
+      name: Sterling Archer
+      email: duchess@example.gov
+      password_digest: <%= User.digest('password') %>
+
+> test/controllers/users_controller_test.rb
+
+    require 'test_helper'
+    
+    class UsersControllerTest < ActionController::TestCase
+    
+      def setup
+        @user       = users(:michael)
+        @other_user = users(:archer)
+      end
+    
+      test "should get new" do
+        get :new
+        assert_response :success
+      end
+    
+      test "should redirect edit when not logged in" do
+        get :edit, id: @user
+        assert_not flash.empty?
+        assert_redirected_to login_url
+      end
+    
+      test "should redirect update when not logged in" do
+        patch :update, id: @user, user: { name: @user.name, email: @user.email }
+        assert_not flash.empty?
+        assert_redirected_to login_url
+      end
+    
+      test "should redirect edit when logged in as wrong user" do
+        log_in_as(@other_user)
+        get :edit, id: @user
+        assert flash.empty?
+        assert_redirected_to root_url
+      end
+    
+      test "should redirect update when logged in as wrong user" do
+        log_in_as(@other_user)
+        patch :update, id: @user, user: { name: @user.name, email: @user.email }
+        assert flash.empty?
+        assert_redirected_to root_url
+      end
+    end
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      before_action :logged_in_user, only: [:edit, :update]
+      before_action :correct_user,   only: [:edit, :update]
+      .
+      .
+      .
+      def edit
+      end
+    
+      def update
+        if @user.update_attributes(user_params)
+          flash[:success] = "Profile updated"
+          redirect_to @user
+        else
+          render 'edit'
+        end
+      end
+      .
+      .
+      .
+      private
+    
+        def user_params
+          params.require(:user).permit(:name, :email, :password,
+                                       :password_confirmation)
+        end
+    
+        # Before filters
+    
+        # Confirms a logged-in user.
+        def logged_in_user
+          unless logged_in?
+            flash[:danger] = "Please log in."
+            redirect_to login_url
+          end
+        end
+    
+        # Confirms the correct user.
+        def correct_user
+          @user = User.find(params[:id])
+          redirect_to(root_url) unless @user == current_user
+        end
+    end
+
+> app/helpers/sessions_helper.rb
+
+    module SessionsHelper
+    
+      # Logs in the given user.
+      def log_in(user)
+        session[:user_id] = user.id
+      end
+    
+      # Returns true if the given user is the current user.
+      def current_user?(user)
+        user == current_user
+      end
+      .
+      .
+      .
+    end
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+	    .
+	    .
+	    .
+    
+        # Confirms the correct user.
+        def correct_user
+          @user = User.find(params[:id])
+          redirect_to(root_url) unless current_user?(@user)
+        end
+    end
 
 
