@@ -271,6 +271,66 @@ end
 
 **Authorization**
 
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/login_page_protected_mockup.png)
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      before_action :logged_in_user, only: [:edit, :update]
+      .
+      .
+      .
+      private
+    
+        def user_params
+          params.require(:user).permit(:name, :email, :password,
+                                       :password_confirmation)
+        end
+    
+        # Before filters
+    
+        # Confirms a logged-in user.
+        def logged_in_user
+          unless logged_in?
+            flash[:danger] = "Please log in."
+            redirect_to login_url
+          end
+        end
+    end
+
+> test/test_helper.rb
+
+    ENV['RAILS_ENV'] ||= 'test'
+    .
+    .
+    .
+    class ActiveSupport::TestCase
+      fixtures :all
+    
+      # Returns true if a test user is logged in.
+      def is_logged_in?
+        !session[:user_id].nil?
+      end
+    
+      # Logs in a test user.
+      def log_in_as(user, options = {})
+        password = options[:password] || 'password'    
+        if integration_test?
+          post login_path, session: { email:    user.email,
+                                      password: password }
+        else
+          session[:user_id] = user.id
+        end
+      end
+    
+        private
+    
+        # Returns true inside an integration test.
+        def integration_test?
+          defined?(post_via_redirect)
+        end
+    end
+
 
 
 
