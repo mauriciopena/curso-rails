@@ -438,3 +438,4 @@ vamos fazer um teste de integração com os seguintes passos:
         assert_select "a[href=?]", user_path(@user), count: 0
       end
     end
+
