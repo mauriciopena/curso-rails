@@ -766,6 +766,198 @@ end
       </div>
     </header>
 
+**Populando o banco de dados com Usuários**
+
+> Gemfile
+
+    source 'https://rubygems.org'
+    
+    gem 'rails',                '4.2.2'
+    gem 'bcrypt'
+    gem 'faker'
+    .
+    .
+    .
+
+
+> db/seeds.rb
+
+    User.create!(name:  "Example User",
+                 email: "example@railstutorial.org",
+                 password:              "foobar",
+                 password_confirmation: "foobar")
+    
+    99.times do |n|
+      name  = Faker::Name.name
+      email = "example-#{n+1}@railstutorial.org"
+      password = "password"
+      User.create!(name:  name,
+                   email: email,
+                   password:              password,
+                   password_confirmation: password)
+    end
+
+para popular nosso banco de dados usamos o rake:
+
+    $ ./bin/rake db:migrate:reset
+    $ ./bin/rake db:seed
+
+**Paginação**
+
+> Gemfile
+
+    source 'https://rubygems.org'
+    
+    gem 'rails',                   '4.2.2'
+    gem 'bcrypt',                  '3.1.7'
+    gem 'faker',                   '1.4.2'
+    gem 'will_paginate',           '3.0.7'
+    gem 'bootstrap-will_paginate', '0.0.10'
+    .
+    .
+    .
+
+> app/views/users/index.html.erb
+
+    <% provide(:title, 'All users') %>
+    <h1>All users</h1>
+    
+    <%= will_paginate %>
+    
+    <ul class="users">
+      <% @users.each do |user| %>
+        <li>
+          <%= gravatar_for user, size: 50 %>
+          <%= link_to user.name, user %>
+        </li>
+      <% end %>
+    </ul>
+    
+    <%= will_paginate %>
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      before_action :logged_in_user, only: [:index, :edit, :update]
+      .
+      .
+      .
+      def index
+        @users = User.paginate(page: params[:page])
+      end
+      .
+      .
+      .
+    end
+
+**Users index test**
+
+> test/fixtures/users.yml
+
+    michael:
+      name: Michael Example
+      email: michael@example.com
+      password_digest: <%= User.digest('password') %>
+    
+    archer:
+      name: Sterling Archer
+      email: duchess@example.gov
+      password_digest: <%= User.digest('password') %>
+    
+    lana:
+      name: Lana Kane
+      email: hands@example.gov
+      password_digest: <%= User.digest('password') %>
+    
+    mallory:
+      name: Mallory Archer
+      email: boss@example.gov
+      password_digest: <%= User.digest('password') %>
+    
+    <% 30.times do |n| %>
+    user_<%= n %>:
+      name:  <%= "User #{n}" %>
+      email: <%= "user-#{n}@example.com" %>
+      password_digest: <%= User.digest('password') %>
+    <% end %>
+
+
+para gerar nosso teste:
+
+    $ ./bin/rails generate integration_test users_index
+
+> test/integration/users_index_test.rb
+
+    require 'test_helper'
+    
+    class UsersIndexTest < ActionDispatch::IntegrationTest
+    
+      def setup
+        @user = users(:michael)
+      end
+    
+      test "index including pagination" do
+        log_in_as(@user)
+        get users_path
+        assert_template 'users/index'
+        assert_select 'div.pagination'
+        User.paginate(page: 1).each do |user|
+          assert_select 'a[href=?]', user_path(user), text: user.name
+        end
+      end
+    end
+
+**Refatorando usando partials**
+
+> app/views/users/index.html.erb
+
+    <% provide(:title, 'All users') %>
+    <h1>All users</h1>
+    
+    <%= will_paginate %>
+    
+    <ul class="users">
+      <% @users.each do |user| %>
+        <%= render user %>
+      <% end %>
+    </ul>
+    
+    <%= will_paginate %>
+
+> app/views/users/_user.html.erb
+
+    <li>
+      <%= gravatar_for user, size: 50 %>
+      <%= link_to user.name, user %>
+    </li>
+
+nosso código evoluiu, mas pode ficar ainda melhor:
+
+> app/views/users/index.html.erb
+
+    <% provide(:title, 'All users') %>
+    <h1>All users</h1>
+    
+    <%= will_paginate %>
+    
+    <ul class="users">
+      <%= render @users %>
+    </ul>
+    
+    <%= will_paginate %>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
