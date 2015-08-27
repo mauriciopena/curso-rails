@@ -124,6 +124,8 @@ Usando as associações belongs_to/has_many o Rails nos disponibiliza os seguint
       .
     end
 
+**Refinamentos do Micropost**
+
 
 
 
