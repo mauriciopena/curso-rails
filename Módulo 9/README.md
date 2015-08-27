@@ -951,6 +951,92 @@ nosso código evoluiu, mas pode ficar ainda melhor:
 ![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_index_delete_links_mockup_bootstrap.png)
 
 
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_model_admin_3rd_edition.png)
+
+
+    $ ./bin/rails generate migration add_admin_to_users admin:boolean
+
+> db/migrate/[timestamp]_add_admin_to_users.rb
+
+    class AddAdminToUsers < ActiveRecord::Migration
+      def change
+        add_column :users, :admin, :boolean, default: false
+      end
+    end
+
+migrar o bd:
+
+    $ ./bin/rake db:migrate
+
+Podemos usar o console para verificar que o Rails, ao ver um campo booleando, já disponibiliza automaticamente o método admin?:
+
+    $ rails console --sandbox
+    >> user = User.first
+    >> user.admin?
+    => false
+    >> user.toggle!(:admin)
+    => true
+    >> user.admin?
+    => true
+
+> db/seeds.rb
+
+    User.create!(name:  "Example User",
+                 email: "example@railstutorial.org",
+                 password:              "foobar",
+                 password_confirmation: "foobar",
+                 admin: true)
+    
+    99.times do |n|
+      name  = Faker::Name.name
+      email = "example-#{n+1}@railstutorial.org"
+      password = "password"
+      User.create!(name:  name,
+                   email: email,
+                   password:              password,
+                   password_confirmation: password)
+    end
+
+agora podemos limpar nosso banco de dados e depois populá-lo novamente:
+
+    $ ./bin/rake db:migrate:reset
+    $ ./bin/rake db:seed
+
+> test/controllers/users_controller_test.rb
+
+    require 'test_helper'
+    
+    class UsersControllerTest < ActionController::TestCase
+    
+      def setup
+        @user       = users(:michael)
+        @other_user = users(:archer)
+      end
+      .
+      .
+      .
+      test "should redirect update when logged in as wrong user" do
+        log_in_as(@other_user)
+        patch :update, id: @user, user: { name: @user.name, email: @user.email }
+        assert_redirected_to root_url
+      end
+    
+      test "should not allow the admin attribute to be edited via the web" do
+        log_in_as(@other_user)
+        assert_not @other_user.admin?
+        patch :update, id: @other_user, user: { password:              "",
+                                                password_confirmation: "",
+                                                admin: true }
+        assert_not @other_user.reload.admin?
+      end
+      .
+      .
+      .
+    end
+
+
+
+
 
 
 
