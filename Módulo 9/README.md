@@ -772,7 +772,7 @@ end
 
     source 'https://rubygems.org'
     
-    gem 'rails',                '4.2.2'
+    gem 'rails',                '4.2.3'
     gem 'bcrypt'
     gem 'faker'
     .
@@ -949,10 +949,6 @@ nosso código evoluiu, mas pode ficar ainda melhor:
 **Exlcuindo usuarios**
 
 ![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_index_delete_links_mockup_bootstrap.png)
-
-
-![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_model_admin_3rd_edition.png)
-
 
     $ ./bin/rails generate migration add_admin_to_users admin:boolean
 
@@ -1148,8 +1144,6 @@ agora podemos limpar nosso banco de dados e depois populá-lo novamente:
         assert_select 'a', text: 'delete', count: 0
       end
     end
-
-
 
 
 
