@@ -80,6 +80,21 @@
 
 ![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/micropost_belongs_to_user.png)
 
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_has_many_microposts.png)
+
+Usando as associações belongs_to/has_many o Rails nos disponibiliza os seguintes métodos:
+
+ - micropost.user : Retorna o objeto User associado ao micropost
+ - user.microposts : Returna um hash com os microposts associados ao objeto user
+ - user.microposts.create(arg) : Grava um novo micropost associado ao objeto user
+ - user.microposts.create!(arg) : Grava um novo micropost associado ao objeto user (lança uma exceção em caso de falha)
+ - user.microposts.build(arg) : Returna um novo objeto Micropost associado ao user
+ - user.microposts.find_by(id: 1) : Busca o micropost com id igual a 1 e user_id igual a user.id
+
+
+
+
+
 
 
 
