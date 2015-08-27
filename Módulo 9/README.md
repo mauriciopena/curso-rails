@@ -946,6 +946,9 @@ nosso código evoluiu, mas pode ficar ainda melhor:
     
     <%= will_paginate %>
 
+**Exlcuindo usuarios**
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_index_delete_links_mockup_bootstrap.png)
 
 
 
