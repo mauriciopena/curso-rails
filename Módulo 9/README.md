@@ -539,4 +539,116 @@ end
         end
     end
 
+**Friendly forwarding**
+
+> test/integration/users_edit_test.rb
+
+    require 'test_helper'
+    
+    class UsersEditTest < ActionDispatch::IntegrationTest
+    
+      def setup
+        @user = users(:michael)
+      end
+      .
+      .
+      .
+      test "successful edit with friendly forwarding" do
+        get edit_user_path(@user)
+        log_in_as(@user)
+        assert_redirected_to edit_user_path(@user)
+        name  = "Foo Bar"
+        email = "foo@bar.com"
+        patch user_path(@user), user: { name:  name,
+                                        email: email,
+                                        password:              "",
+                                        password_confirmation: "" }
+        assert_not flash.empty?
+        assert_redirected_to @user
+        @user.reload
+        assert_equal name,  @user.name
+        assert_equal email, @user.email
+      end
+    end
+
+> app/helpers/sessions_helper.rb
+
+    module SessionsHelper
+      .
+      .
+      .
+      # Redirects to stored location (or to the default).
+      def redirect_back_or(default)
+        redirect_to(session[:forwarding_url] || default)
+        session.delete(:forwarding_url)
+      end
+    
+      # Stores the URL trying to be accessed.
+      def store_location
+        session[:forwarding_url] = request.url if request.get?
+      end
+    end
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      before_action :logged_in_user, only: [:edit, :update]
+      before_action :correct_user,   only: [:edit, :update]
+      .
+      .
+      .
+      def edit
+      end
+      .
+      .
+      .
+      private
+    
+        def user_params
+          params.require(:user).permit(:name, :email, :password,
+                                       :password_confirmation)
+        end
+    
+        # Before filters
+    
+        # Confirms a logged-in user.
+        def logged_in_user
+          unless logged_in?
+            store_location
+            flash[:danger] = "Please log in."
+            redirect_to login_url
+          end
+        end
+    
+        # Confirms the correct user.
+        def correct_user
+          @user = User.find(params[:id])
+          redirect_to(root_url) unless current_user?(@user)
+        end
+    end
+
+> app/controllers/sessions_controller.rb
+
+    class SessionsController < ApplicationController
+      .
+      .
+      .
+      def create
+        user = User.find_by(email: params[:session][:email].downcase)
+        if user && user.authenticate(params[:session][:password])
+          log_in user
+          redirect_back_or user
+        else
+          flash.now[:danger] = 'Invalid email/password combination'
+          render 'new'
+        end
+      end
+      .
+      .
+      .
+    end
+
+
+
+
 
