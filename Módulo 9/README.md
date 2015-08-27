@@ -1034,6 +1034,43 @@ agora podemos limpar nosso banco de dados e depois populá-lo novamente:
       .
     end
 
+**Destroy action**
+
+> app/views/users/_user.html.erb
+
+    <li>
+      <%= gravatar_for user, size: 50 %>
+      <%= link_to user.name, user %>
+      <% if current_user.admin? && !current_user?(user) %>
+        | <%= link_to "delete", user, method: :delete,
+                                      data: { confirm: "You sure?" } %>
+      <% end %>
+    </li>
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+      before_action :correct_user,   only: [:edit, :update]
+      before_action :admin_user,     only: :destroy
+      .
+      .
+      .
+      def destroy
+        User.find(params[:id]).destroy
+        flash[:success] = "User deleted"
+        redirect_to users_url
+      end
+      .
+      .
+      .
+      private
+        # Confirms an admin user.
+          def admin_user
+            redirect_to(root_url) unless current_user.admin?
+          end
+    end
+
 
 
 
