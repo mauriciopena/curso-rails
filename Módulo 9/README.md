@@ -648,6 +648,124 @@ end
       .
     end
 
+**Listando todos os usuarios**
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_index_mockup_bootstrap.png)
+
+> test/controllers/users_controller_test.rb
+
+    require 'test_helper'
+    
+    class UsersControllerTest < ActionController::TestCase
+    
+      def setup
+        @user       = users(:michael)
+        @other_user = users(:archer)
+      end
+    
+      test "should redirect index when not logged in" do
+        get :index
+        assert_redirected_to login_url
+      end
+      .
+      .
+      .
+    end
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      before_action :logged_in_user, only: [:index, :edit, :update]
+      before_action :correct_user,   only: [:edit, :update]
+    
+      def index
+        @users = User.all
+      end
+    
+      def show
+        @user = User.find(params[:id])
+      end
+      .
+      .
+      .
+    end
+
+> app/views/users/index.html.erb
+
+    <% provide(:title, 'All users') %>
+    <h1>All users</h1>
+    
+    <ul class="users">
+      <% @users.each do |user| %>
+        <li>
+          <%= gravatar_for user, size: 50 %>
+          <%= link_to user.name, user %>
+        </li>
+      <% end %>
+    </ul>
+
+> app/helpers/users_helper.rb
+
+    module UsersHelper
+    
+      # Returns the Gravatar for the given user.
+      def gravatar_for(user, options = { size: 80 })
+        gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
+        size = options[:size]
+        gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}"
+        image_tag(gravatar_url, alt: user.name, class: "gravatar")
+      end
+    end
+
+> app/assets/stylesheets/custom.css.scss
+
+    .
+    .
+    .
+    /* Users index */
+    
+    .users {
+      list-style: none;
+      margin: 0;
+      li {
+        overflow: auto;
+        padding: 10px 0;
+        border-bottom: 1px solid $gray-lighter;
+      }
+    }
+
+> app/views/layouts/_header.html.erb
+
+    <header class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container">
+        <%= link_to "sample app", root_path, id: "logo" %>
+        <nav>
+          <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Help", help_path %></li>
+            <% if logged_in? %>
+              <li><%= link_to "Users", users_path %></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  Account <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "Profile", current_user %></li>
+                  <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+                  <li class="divider"></li>
+                  <li>
+                    <%= link_to "Log out", logout_path, method: "delete" %>
+                  </li>
+                </ul>
+              </li>
+            <% else %>
+              <li><%= link_to "Log in", login_path %></li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
 
 
 
