@@ -91,6 +91,38 @@ Usando as associações belongs_to/has_many o Rails nos disponibiliza os seguint
  - user.microposts.build(arg) : Returna um novo objeto Micropost associado ao user
  - user.microposts.find_by(id: 1) : Busca o micropost com id igual a 1 e user_id igual a user.id
 
+> app/models/user.rb
+
+    class User < ActiveRecord::Base
+      has_many :microposts
+      .
+      .
+      .
+    end
+
+> test/models/micropost_test.rb
+
+    require 'test_helper'
+    
+    class MicropostTest < ActiveSupport::TestCase
+    
+      def setup
+        @user = users(:michael)
+        @micropost = @user.microposts.build(content: "Lorem ipsum")
+      end
+    
+      test "should be valid" do
+        assert @micropost.valid?
+      end
+    
+      test "user id should be present" do
+        @micropost.user_id = nil
+        assert_not @micropost.valid?
+      end
+      .
+      .
+      .
+    end
 
 
 
