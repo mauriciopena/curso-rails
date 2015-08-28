@@ -961,8 +961,76 @@ A gem carrierwave tem um gerador que podemos usar para criar nosso uploader:
 
 **Validações de imagem**
 
+> app/uploaders/picture_uploader.rb
+
+    class PictureUploader < CarrierWave::Uploader::Base
+      storage :file
+    
+      # Override the directory where uploaded files will be stored.
+      # This is a sensible default for uploaders that are meant to be mounted:
+      def store_dir
+        "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+      end
+    
+      # Add a white list of extensions which are allowed to be uploaded.
+      def extension_white_list
+        %w(jpg jpeg gif png)
+      end
+    end
+
+> app/models/micropost.rb
+
+    class Micropost < ActiveRecord::Base
+      belongs_to :user
+      default_scope -> { order(created_at: :desc) }
+      mount_uploader :picture, PictureUploader
+      validates :user_id, presence: true
+      validates :content, presence: true, length: { maximum: 140 }
+      validate  :picture_size
+    
+      private
+    
+        # Validates the size of an uploaded picture.
+        def picture_size
+          if picture.size > 5.megabytes
+            errors.add(:picture, "should be less than 5MB")
+          end
+        end
+    end
+
+**Redimensionando a imagem**
+
+    $ sudo apt-get update
+    $ sudo apt-get install imagemagick --fix-missing
+
+> app/uploaders/picture_uploader.rb
+
+    class PictureUploader < CarrierWave::Uploader::Base
+      include CarrierWave::MiniMagick
+      process resize_to_limit: [400, 400]
+    
+      storage :file
+    
+      # Override the directory where uploaded files will be stored.
+      # This is a sensible default for uploaders that are meant to be mounted:
+      def store_dir
+        "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+      end
+    
+      # Add a white list of extensions which are allowed to be uploaded.
+      def extension_white_list
+        %w(jpg jpeg gif png)
+      end
+    end
+
+
+
+
 
     
+
+
+
 
 
 
