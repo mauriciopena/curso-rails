@@ -141,6 +141,74 @@ primeiro vamos usar o default_scope do rails para ordenar os microposts de um us
       end
     end
 
+> test/fixtures/microposts.yml
+
+    orange:
+      content: "I just ate an orange!"
+      created_at: <%= 10.minutes.ago %>
+    
+    tau_manifesto:
+      content: "Check out the @tauday site by @mhartl: http://tauday.com"
+      created_at: <%= 3.years.ago %>
+    
+    cat_video:
+      content: "Sad cats are sad: http://youtu.be/PKffm2uI4dk"
+      created_at: <%= 2.hours.ago %>
+    
+    most_recent:
+      content: "Writing a short test"
+      created_at: <%= Time.zone.now %>
+
+> app/models/micropost.rb
+
+    class Micropost < ActiveRecord::Base
+      belongs_to :user
+      default_scope -> { order(:created_at => :desc) }
+      validates :user_id, presence: true
+      validates :content, presence: true, length: { maximum: 140 }
+    end
+
+**Dependent: destroy**
+
+> test/models/user_test.rb
+
+    require 'test_helper'
+    
+    class UserTest < ActiveSupport::TestCase
+    
+      def setup
+        @user = User.new(name: "Example User", email: "user@example.com",
+                         password: "foobar", password_confirmation: "foobar")
+      end
+      .
+      .
+      .
+      test "associated microposts should be destroyed" do
+        @user.save
+        @user.microposts.create!(content: "Lorem ipsum")
+        assert_difference 'Micropost.count', -1 do
+          @user.destroy
+        end
+      end
+    end
+
+> app/models/user.rb
+
+    class User < ActiveRecord::Base
+      has_many :microposts, :dependent => :destroy
+      .
+      .
+      .
+    end
+
+**Listando os microposts**
+
+
+
+
+
+
+
 
 
 
