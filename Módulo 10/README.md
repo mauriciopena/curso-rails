@@ -327,6 +327,67 @@ agora podemos reiniciar e popular o BD:
       }
     }
 
+**Testando a página de profile do usuário (e listagem de microposts)**
+
+    $ ./bin/rails generate integration_test users_profile
+
+> test/fixtures/microposts.yml
+
+    orange:
+      content: "I just ate an orange!"
+      created_at: <%= 10.minutes.ago %>
+      user: michael
+    
+    tau_manifesto:
+      content: "Check out the @tauday site by @mhartl: http://tauday.com"
+      created_at: <%= 3.years.ago %>
+      user: michael
+    
+    cat_video:
+      content: "Sad cats are sad: http://youtu.be/PKffm2uI4dk"
+      created_at: <%= 2.hours.ago %>
+      user: michael
+    
+    most_recent:
+      content: "Writing a short test"
+      created_at: <%= Time.zone.now %>
+      user: michael
+    
+    <% 30.times do |n| %>
+    micropost_<%= n %>:
+      content: <%= Faker::Lorem.sentence(5) %>
+      created_at: <%= 42.days.ago %>
+      user: michael
+    <% end %>
+
+> test/integration/users_profile_test.rb
+
+    require 'test_helper'
+    
+    class UsersProfileTest < ActionDispatch::IntegrationTest
+      include ApplicationHelper
+    
+      def setup
+        @user = users(:michael)
+      end
+    
+      test "profile display" do
+        get user_path(@user)
+        assert_template 'users/show'
+        assert_select 'title', full_title(@user.name)
+        assert_select 'h1', text: @user.name
+        assert_select 'h1>img.gravatar'
+        assert_match @user.microposts.count.to_s, response.body
+        assert_select 'div.pagination'
+        @user.microposts.paginate(page: 1).each do |micropost|
+          assert_match micropost.content, response.body
+        end
+      end
+    end
+
+
+
+
 
 
 
