@@ -124,7 +124,25 @@ Usando as associações belongs_to/has_many o Rails nos disponibiliza os seguint
       .
     end
 
-**Refinamentos do Micropost**
+**Melhoramentos no Micropost**
+
+primeiro vamos usar o default_scope do rails para ordenar os microposts de um usuário para que venham na ordem reversa da postagem de maneira que os mais novos apareçam primeiro.
+
+> test/models/micropost_test.rb
+
+    require 'test_helper'
+    
+    class MicropostTest < ActiveSupport::TestCase
+      .
+      .
+      .
+      test "order should be most recent first" do
+        assert_equal microposts(:most_recent), Micropost.first
+      end
+    end
+
+
+
 
 
 
