@@ -625,6 +625,184 @@ para evitar duplicação de código, vamos mover o método logged_in_user do use
       </div>
     </div>
 
+**Feed de microposts**
+
+mock da home page com feed:
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/proto_feed_mockup_3rd_edition.png)
+
+> app/models/user.rb
+
+    class User < ActiveRecord::Base
+      .
+      .
+      .
+      # Defines a proto-feed.      
+      def feed
+        Micropost.where("user_id = ?", id)
+      end
+    
+        private
+        .
+        .
+        .
+    end
+
+> app/controllers/static_pages_controller.rb
+
+    class StaticPagesController < ApplicationController
+    
+      def home
+        if logged_in?
+          @micropost  = current_user.microposts.build
+          @feed_items = current_user.feed.paginate(page: params[:page])
+        end
+      end
+    
+      def help
+      end
+    
+      def about
+      end
+    
+      def contact
+      end
+    end
+
+> app/views/shared/_feed.html.erb
+
+    <% if @feed_items.any? %>
+      <ol class="microposts">
+        <%= render @feed_items %>
+      </ol>
+      <%= will_paginate @feed_items %>
+    <% end %>
+
+> app/views/static_pages/home.html.erb
+
+    <% if logged_in? %>
+      <div class="row">
+        <aside class="col-md-4">
+          <section class="user_info">
+            <%= render 'shared/user_info' %>
+          </section>
+          <section class="micropost_form">
+            <%= render 'shared/micropost_form' %>
+          </section>
+        </aside>
+        <div class="col-md-8">
+          <h3>Micropost Feed</h3>
+          <%= render 'shared/feed' %>
+        </div>
+      </div>
+    <% else %>
+      .
+      .
+      .
+    <% end %>
+
+> app/controllers/microposts_controller.rb
+
+    class MicropostsController < ApplicationController
+      before_action :logged_in_user, only: [:create, :destroy]
+    
+      def create
+        @micropost = current_user.microposts.build(micropost_params)
+        if @micropost.save
+          flash[:success] = "Micropost created!"
+          redirect_to root_url
+        else
+          @feed_items = []
+          render 'static_pages/home'
+        end
+      end
+    
+      def destroy
+      end
+    
+      private
+    
+        def micropost_params
+          params.require(:micropost).permit(:content)
+        end
+    end
+
+> app/controllers/microposts_controller.rb
+
+    class MicropostsController < ApplicationController
+      .
+      .
+      .
+      def create
+        @micropost = current_user.microposts.build(micropost_params)
+        if @micropost.save
+          flash[:success] = "Micropost created!"
+          redirect_to root_url
+        else
+          @feed_items = []
+          render 'static_pages/home'
+        end
+      end
+      .
+      .
+      .
+    end
+
+**Exlcuíndo microposts**
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/micropost_delete_links_mockup_3rd_edition.png)
+
+> app/views/microposts/_micropost.html.erb
+
+    <li id="<%= micropost.id %>">
+      <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
+      <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
+      <span class="content"><%= micropost.content %></span>
+      <span class="timestamp">
+        Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+        <% if current_user?(micropost.user) %>
+          <%= link_to "delete", micropost, method: :delete,
+                                           data: { confirm: "You sure?" } %>
+        <% end %>
+      </span>
+    </li>
+
+> app/controllers/microposts_controller.rb
+
+    class MicropostsController < ApplicationController
+      before_action :logged_in_user, only: [:create, :destroy]
+      before_action :correct_user,   only: :destroy
+      .
+      .
+      .
+      def destroy
+        @micropost.destroy
+        flash[:success] = "Micropost deleted"
+        redirect_to request.referrer || root_url
+      end
+    
+      private
+    
+        def micropost_params
+          params.require(:micropost).permit(:content)
+        end
+    
+         def correct_user
+          @micropost = current_user.microposts.find_by(id: params[:id])
+          redirect_to root_url if @micropost.nil?
+        end
+    end
+
+**Testes de Micropost**
+
+
+
+
+
+
+
+
+
 
 
 
