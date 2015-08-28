@@ -893,8 +893,84 @@ A gem carrierwave tem um gerador que podemos usar para criar nosso uploader:
 
     $ ./bin/rails generate uploader Picture
 
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/micropost_model_picture.png)
+
+    $ ./bin/rails generate migration add_picture_to_microposts picture:string
+    $ ./bin/rake db:migrate
+
+> app/models/micropost.rb
+
+    class Micropost < ActiveRecord::Base
+      belongs_to :user
+      default_scope -> { order(created_at: :desc) }
+      mount_uploader :picture, PictureUploader
+      validates :user_id, presence: true
+      validates :content, presence: true, length: { maximum: 140 }
+    end
+
+> app/views/shared/_micropost_form.html.erb
+
+    <%= form_for(@micropost, html: { multipart: true }) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <div class="field">
+        <%= f.text_area :content, placeholder: "Compose new micropost..." %>
+      </div>
+      <%= f.submit "Post", class: "btn btn-primary" %>
+      <span class="picture">
+        <%= f.file_field :picture %>
+      </span>
+    <% end %>
+
+> app/controllers/microposts_controller.rb
+
+    class MicropostsController < ApplicationController
+      before_action :logged_in_user, only: [:create, :destroy]
+      before_action :correct_user,   only: :destroy
+      .
+      .
+      .
+      private
+    
+        def micropost_params
+          params.require(:micropost).permit(:content, :picture)
+        end
+    
+         def correct_user
+          @micropost = current_user.microposts.find_by(id: params[:id])
+          redirect_to root_url if @micropost.nil?
+        end
+    end
+
+> app/views/microposts/_micropost.html.erb
+
+    <li id="micropost-<%= micropost.id %>">
+      <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
+      <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
+      <span class="content">
+        <%= micropost.content %>
+        <%= image_tag micropost.picture.url if micropost.picture? %>
+      </span>
+      <span class="timestamp">
+        Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+        <% if current_user?(micropost.user) %>
+          <%= link_to "delete", micropost, method: :delete,
+                                           data: { confirm: "You sure?" } %>
+        <% end %>
+      </span>
+    </li>
+
+**Validações de imagem**
+
 
     
+
+
+
+
+
+
+
+
 
 
 
