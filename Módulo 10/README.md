@@ -795,6 +795,91 @@ mock da home page com feed:
 
 **Testes de Micropost**
 
+> test/fixtures/microposts.yml
+
+    .
+    .
+    .
+    ants:
+      content: "Oh, is that what you want? Because that's how you get ants!"
+      created_at: <%= 2.years.ago %>
+      user: archer
+    
+    zone:
+      content: "Danger zone!"
+      created_at: <%= 3.days.ago %>
+      user: archer
+    
+    tone:
+      content: "I'm sorry. Your words made sense, but your sarcastic tone did not."
+      created_at: <%= 10.minutes.ago %>
+      user: lana
+    
+    van:
+      content: "Dude, this van's, like, rolling probable cause."
+      created_at: <%= 4.hours.ago %>
+      user: lana
+
+> test/controllers/microposts_controller_test.rb
+   
+      .
+      .
+      .
+      test "should redirect destroy for wrong micropost" do
+        log_in_as(users(:michael))
+        micropost = microposts(:ants)
+        assert_no_difference 'Micropost.count' do
+          delete :destroy, id: micropost
+        end
+        assert_redirected_to root_url
+      end
+    end
+
+Para finalizar vamos implementar um teste de integração em que fazemos login, verficamos a paginação dos microposts, tentamos cadastrar enviando dados inválidos, cadastramos com dados válidos, excluímos um micropost e depois visitamos a página de um outro usuário para verficar que os links de delete não aparecem.
+
+    $ ./bin/rails generate integration_test microposts_interface
+
+> test/integration/microposts_interface_test.rb
+
+    require 'test_helper'
+    
+    class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
+    
+      def setup
+        @user = users(:michael)
+      end
+    
+      test "micropost interface" do
+        log_in_as(@user)
+        get root_path
+        assert_select 'div.pagination'
+        # Invalid submission
+        assert_no_difference 'Micropost.count' do
+          post microposts_path, micropost: { content: "" }
+        end
+        assert_select 'div#error_explanation'
+        # Valid submission
+        content = "This micropost really ties the room together"
+        assert_difference 'Micropost.count', 1 do
+          post microposts_path, micropost: { content: content }
+        end
+        assert_redirected_to root_url
+        follow_redirect!
+        assert_match content, response.body
+        # Delete a post.
+        assert_select 'a', text: 'delete'
+        first_micropost = @user.microposts.paginate(page: 1).first
+        assert_difference 'Micropost.count', -1 do
+          delete micropost_path(first_micropost)
+        end
+        # Visit a different user.
+        get user_path(users(:archer))
+        assert_select 'a', text: 'delete', count: 0
+      end
+    end
+
+
+
 
 
 
