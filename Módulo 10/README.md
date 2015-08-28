@@ -385,6 +385,255 @@ agora podemos reiniciar e popular o BD:
       end
     end
 
+**Manipulando Microposts**
+
+> config/routes.rb
+
+    Rails.application.routes.draw do
+      root                'static_pages#home'
+      get    'help'    => 'static_pages#help'
+      get    'about'   => 'static_pages#about'
+      get    'contact' => 'static_pages#contact'
+      get    'signup'  => 'users#new'
+      get    'login'   => 'sessions#new'
+      post   'login'   => 'sessions#create'
+      delete 'logout'  => 'sessions#destroy'
+      resources :users
+      resources :microposts,          only: [:create, :destroy]
+    end
+
+**testes para testar a autorização nos microposts**
+
+> test/controllers/microposts_controller_test.rb
+
+    require 'test_helper'
+    
+    class MicropostsControllerTest < ActionController::TestCase
+    
+      def setup
+        @micropost = microposts(:orange)
+      end
+    
+      test "should redirect create when not logged in" do
+        assert_no_difference 'Micropost.count' do
+          post :create, micropost: { content: "Lorem ipsum" }
+        end
+        assert_redirected_to login_url
+      end
+    
+      test "should redirect destroy when not logged in" do
+        assert_no_difference 'Micropost.count' do
+          delete :destroy, id: @micropost
+        end
+        assert_redirected_to login_url
+      end
+    end
+
+para evitar duplicação de código, vamos mover o método logged_in_user do users_controller para o application_controller. Assim ele ficará disponível tanto no users_controller quanto no microposts_controller:
+
+> app/controllers/application_controller.rb
+
+    class ApplicationController < ActionController::Base
+      protect_from_forgery with: :exception
+      include SessionsHelper
+    
+      private
+    
+        # Confirms a logged-in user.
+        def logged_in_user
+          unless logged_in?
+            store_location
+            flash[:danger] = "Please log in."
+            redirect_to login_url
+          end
+        end
+    end
+
+
+> app/controllers/microposts_controller.rb
+
+    class MicropostsController < ApplicationController
+      before_action :logged_in_user, only: [:create, :destroy]
+    
+      def create
+      end
+    
+      def destroy
+      end
+    end
+
+**Cadastrando microposts**
+
+> app/controllers/microposts_controller.rb
+
+    class MicropostsController < ApplicationController
+      before_action :logged_in_user, only: [:create, :destroy]
+    
+      def create
+        @micropost = current_user.microposts.build(micropost_params)
+        if @micropost.save
+          flash[:success] = "Micropost created!"
+          redirect_to root_url
+        else
+          render 'static_pages/home'
+        end
+      end
+    
+      def destroy
+      end
+    
+      private
+    
+        def micropost_params
+          params.require(:micropost).permit(:content)
+        end
+    end
+
+> app/views/static_pages/home.html.erb
+
+    <% if logged_in? %>
+      <div class="row">
+        <aside class="col-md-4">
+          <section class="user_info">
+            <%= render 'shared/user_info' %>
+          </section>
+          <section class="micropost_form">
+            <%= render 'shared/micropost_form' %>
+          </section>
+        </aside>
+      </div>
+    <% else %>
+      <div class="center jumbotron">
+        <h1>Welcome to the Sample App</h1>
+    
+        <h2>
+          This is the home page.
+        </h2>
+    
+        <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+      </div>
+    
+      <%= link_to image_tag("rails.png", alt: "Rails logo"),
+                  'http://rubyonrails.org/' %>
+    <% end %>
+
+> app/views/shared/_user_info.html.erb
+
+    <%= link_to gravatar_for(current_user, size: 50), current_user %>
+    <h1><%= current_user.name %></h1>
+    <span><%= link_to "view my profile", current_user %></span>
+    <span><%= pluralize(current_user.microposts.count, "micropost") %></span>
+
+> app/views/shared/_micropost_form.html.erb
+
+    <%= form_for(@micropost) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <div class="field">
+        <%= f.text_area :content, placeholder: "Compose new micropost..." %>
+      </div>
+      <%= f.submit "Post", class: "btn btn-primary" %>
+    <% end %>
+
+> app/controllers/static_pages_controller.rb
+
+    class StaticPagesController < ApplicationController
+    
+      def home
+        @micropost = current_user.microposts.build if logged_in?
+      end
+    
+      def help
+      end
+    
+      def about
+      end
+    
+      def contact
+      end
+    end
+
+> app/views/shared/_error_messages.html.erb
+
+    <% if object.errors.any? %>
+      <div id="error_explanation">
+        <div class="alert alert-danger">
+          The form contains <%= pluralize(object.errors.count, "error") %>.
+        </div>
+        <ul>
+        <% object.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+> app/views/users/new.html.erb
+
+    <% provide(:title, 'Sign up') %>
+    <h1>Sign up</h1>
+    
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <%= form_for(@user) do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+          <%= f.label :name %>
+          <%= f.text_field :name, class: 'form-control' %>
+    
+          <%= f.label :email %>
+          <%= f.email_field :email, class: 'form-control' %>
+    
+          <%= f.label :password %>
+          <%= f.password_field :password, class: 'form-control' %>
+    
+          <%= f.label :password_confirmation, "Confirmation" %>
+          <%= f.password_field :password_confirmation, class: 'form-control' %>
+    
+          <%= f.submit "Create my account", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+
+> app/views/users/edit.html.erb
+
+     <% provide(:title, "Edit user") %>
+    <h1>Update your profile</h1>
+    
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <%= form_for(@user) do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+    
+          <%= f.label :name %>
+          <%= f.text_field :name, class: 'form-control' %>
+    
+          <%= f.label :email %>
+          <%= f.email_field :email, class: 'form-control' %>
+    
+          <%= f.label :password %>
+          <%= f.password_field :password, class: 'form-control' %>
+    
+          <%= f.label :password_confirmation, "Confirmation" %>
+          <%= f.password_field :password_confirmation, class: 'form-control' %>
+    
+          <%= f.submit "Save changes", class: "btn btn-primary" %>
+        <% end %>
+    
+        <div class="gravatar_edit">
+          <%= gravatar_for @user %>
+          <a href="http://gravatar.com/emails">change</a>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
 
 
 
