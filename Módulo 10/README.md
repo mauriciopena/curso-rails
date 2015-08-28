@@ -878,7 +878,23 @@ Para finalizar vamos implementar um teste de integração em que fazemos login, 
       end
     end
 
+**Imagens em microposts**
 
+> Gemfile
+
+    .
+    .
+    .
+    gem 'carrierwave'
+    gem 'mini_magick'
+
+
+A gem carrierwave tem um gerador que podemos usar para criar nosso uploader:
+
+    $ ./bin/rails generate uploader Picture
+
+
+    
 
 
 
