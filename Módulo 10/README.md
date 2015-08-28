@@ -203,7 +203,129 @@ primeiro vamos usar o default_scope do rails para ordenar os microposts de um us
 
 **Listando os microposts**
 
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_microposts_mockup_3rd_edition.png)
 
+    $ ./bin/rails generate controller Microposts
+
+> app/views/microposts/_micropost.html.erb
+
+    <li id="micropost-<%= micropost.id %>">
+      <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
+      <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
+      <span class="content"><%= micropost.content %></span>
+      <span class="timestamp">
+        Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+      </span>
+    </li>
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      .
+      .
+      .
+      def show
+        @user = User.find(params[:id])
+        @microposts = @user.microposts.paginate(page: params[:page])
+      end
+      .
+      .
+      .
+    end
+
+> app/views/users/show.html.erb
+
+    <% provide(:title, @user.name) %>
+    <div class="row">
+      <aside class="col-md-4">
+        <section class="user_info">
+          <h1>
+            <%= gravatar_for @user %>
+            <%= @user.name %>
+          </h1>
+        </section>
+      </aside>
+      <div class="col-md-8">
+        <% if @user.microposts.any? %>
+          <h3>Microposts (<%= @user.microposts.count %>)</h3>
+          <ol class="microposts">
+            <%= render @microposts %>
+          </ol>
+          <%= will_paginate @microposts %>
+        <% end %>
+      </div>
+    </div>
+
+
+**Polulando o BD com Microposts**
+
+> db/seeds.rb
+
+    .
+    .
+    .
+    users = User.order(:created_at).take(6)
+    50.times do
+      content = Faker::Lorem.sentence(5)
+      users.each { |user| user.microposts.create!(content: content) }
+    end
+
+agora podemos reiniciar e popular o BD:
+
+    $ bundle exec rake db:migrate:reset
+    $ bundle exec rake db:seed
+
+> app/assets/stylesheets/custom.css.scss
+
+    .
+    .
+    .
+    /* microposts */
+    
+    .microposts {
+      list-style: none;
+      padding: 0;
+      li {
+        padding: 10px 0;
+        border-top: 1px solid #e8e8e8;
+      }
+      .user {
+        margin-top: 5em;
+        padding-top: 0;
+      }
+      .content {
+        display: block;
+        margin-left: 60px;
+        img {
+          display: block;
+          padding: 5px 0;
+        }
+      }
+      .timestamp {
+        color: $gray-light;
+        display: block;
+        margin-left: 60px;
+      }
+      .gravatar {
+        float: left;
+        margin-right: 10px;
+        margin-top: 5px;
+      }
+    }
+    
+    aside {
+      textarea {
+        height: 100px;
+        margin-bottom: 5px;
+      }
+    }
+    
+    span.picture {
+      margin-top: 10px;
+      input {
+        border: 0;
+      }
+    }
 
 
 
