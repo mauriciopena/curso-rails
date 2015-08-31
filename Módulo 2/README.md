@@ -30,10 +30,10 @@ para a aplicação funcionar temos que rodar a migração de banco de dados usan
 
 **2.5 User Tour**
 
-/users 	        index 	lista todos os users
-/users/1 	        show 	mostra o user que tem id igual a 1
-/users/new 	new 	        página para criar um novo user
-/users/1/edit 	edit 	        edita um user que tem id igual a 1
+- /users 	        index 	lista todos os users
+- /users/1 	        show 	mostra o user que tem id igual a 1
+- /users/new 	new 	        página para criar um novo user
+- /users/1/edit 	edit 	        edita um user que tem id igual a 1
 
 **2.6 MVC em ação**
 
