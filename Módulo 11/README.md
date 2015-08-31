@@ -20,3 +20,15 @@ voltando para a homepage o usuário calvin agora também encontra listados os mi
 ![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/page_flow_home_page_feed_mockup_3rd_edition.png)
 
 
+**Proposta de modelo de relacionamento**
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/naive_user_has_many_following.png)
+
+problemas dessa proposta:
+
+ - redundância de dados 
+ - duas tabelas, com redundância de dados: followers e following
+ - manter os dados de usuário atualizados seria muito difícil
+
+
+
