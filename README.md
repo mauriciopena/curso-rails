@@ -1,4 +1,4 @@
-# curso-rails
+# Treinamento de Ruby on Rails
 
 1. [Instalação do ruby/rails](https://github.com/mauriciopena/curso-rails/tree/master/M%C3%B3dulo%201)
 2. [peep_app](https://github.com/mauriciopena/curso-rails/tree/master/M%C3%B3dulo%202)
