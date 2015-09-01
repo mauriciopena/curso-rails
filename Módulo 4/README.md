@@ -328,7 +328,7 @@ o metodo join faz o servico contrario do split:
     >> a.join(', ')                 # Join on comma-space.
     => "42, 8, 17, 7, foo, bar"
 
-Ranges são muito utulizados em conjunto com arrays:
+Ranges são muito utilizados em conjunto com arrays:
 
     >> 0..9
     => 0..9
