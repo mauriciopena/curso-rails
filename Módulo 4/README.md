@@ -435,7 +435,7 @@ Hashes sao, basicamente, arrays que podem ter indices que nao sao inteiros. Na v
     >> user                               # A literal representation of the hash
     => {"last_name"=>"Lucas", "first_name"=>"Pratto"}
 
-Podemos definir mais de um elemento de uma vez usando keys e valores serarados por =>:
+Podemos definir mais de um elemento de uma vez usando keys e valores separados por =>:
 
     >> user = { "first_name" => "Lucas", "last_name" => "Pratto" }
     => {"last_name"=>"Lucas", "first_name"=>"Pratto"}
