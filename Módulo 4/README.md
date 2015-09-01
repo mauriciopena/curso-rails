@@ -367,7 +367,7 @@ Arrays and ranges respondem a vários métodos que aceitam blocos:
     10
     => 1..5
 
-As chaves são indicadores de bloco, mas não existe uma sintaxe alternativa:
+As chaves são indicadores de bloco, mas existe uma sintaxe alternativa:
 
     >> (1..5).each do |i|
     ?>   puts 2 * i
