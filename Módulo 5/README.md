@@ -427,7 +427,8 @@ mas em Rails existe uma maneira melhor, usando named routes:
 
     <%= link_to "About", about_path %>
 
-The full list of our planned links appears in Table 5.1, along with their mapping to URLs and routes. We took care of the first route in Section 3.4.4, and we’ll have implemented all but the last one by the end of this chapter. (We’ll make the last one in Chapter 8.)
+Essa é a lista dos links que serão implementados:
+
 
     Page 	    URL 	     Named route
     Home 	    / 	         root_path
