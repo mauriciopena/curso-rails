@@ -20,7 +20,7 @@
       </head>
       <body>
         <header class="navbar navbar-fixed-top navbar-inverse">
-          <div class="container">
+          <div class="container">a
             <%= link_to "sample app", '#', id: "logo" %>
             <nav>
               <ul class="nav navbar-nav navbar-right">
@@ -491,7 +491,7 @@ Cada uma dessas rotas tem 2 variações, _path e _url, por exemplo:
 
     $ ./bin/rails generate integration_test site_layout
 
-Nosso plano para testar a estrutura HTML do nosso site sara o seguinte:
+Nosso plano para testar a estrutura HTML do nosso site séra o seguinte:
 
 - Dar um Get no root path (Home page)
 - Verificar se o template correto foi renderizado
