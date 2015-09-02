@@ -459,7 +459,7 @@ para instalar o bcrypt:
     >> user = User.find_by(email: "pratto@gnv.com")
     >> user.authenticate("senha errada")
     false
-    >> user.authenticate("cha123vez")
+    >> user.authenticate("cha123ves")
     false
     >> user.authenticate("cha123polim")
     => #<User id: 1, name: "Lucas Pratto", email: "pratto@gnv.com", created_at: "2015-07-25 02:58:28", updated_at: "2015-07-25 02:58:28", password_digest: "$2a$10$YmQTuuDNOszvu5yi7auOC.F4G//FGhyQSWCpghqRWQW...">
