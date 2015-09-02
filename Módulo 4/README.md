@@ -107,7 +107,7 @@ Outra maneira (menos elegante) de fazer a mesma coisa:
     foo
     => nil
 
-o comando puts automaticamente um \n na saida. Ja o metodo print, nao:
+o comando puts automaticamente um \n na saída. Ja o metodo print, não:
 
     >> print "foo"    # print string (same as puts, but without the newline)
     foo=> nil
@@ -129,7 +129,7 @@ Mas existe uma diferença importante; Não é possível usar interpolação em s
     >> '#{foo} bar'     # Single-quoted strings don't allow interpolation
     => "\#{foo} bar"
 
-por esse motivo strings de aspas simples sao muito uteis quando se quer utilizar um valor literal, por exemplo:
+por esse motivo strings de aspas simples são muito úteis quando se quer utilizar um valor literal, por exemplo:
 
     >> '\n'       # A literal 'backslash n' combination
     => "\\n"
@@ -186,7 +186,7 @@ Booleanos podem ser combinados usando os operadores && (“and”), || (“or”
     => nil
 
 
-Como nil e um objeto ele responde ao metodo to_s que e capaz de converter praticamente qualquer objeto em uma string:
+Como nil é um objeto ele responde ao método to_s que é capaz de converter praticamente qualquer objeto em uma string:
 
     >> nil.to_s
     => ""
@@ -195,7 +195,7 @@ Como nil e um objeto ele responde ao metodo to_s que e capaz de converter pratic
     >> nil.to_s.empty?      # Message chaining
     => true
 
-Existe um metodo especial para testar se um objeto e nil:
+Existe um metodo especial para testar se um objeto é nil:
 
     >> "foo".nil?
     => false
@@ -204,23 +204,23 @@ Existe um metodo especial para testar se um objeto e nil:
     >> nil.nil?
     => true
 
-A linha de codigo:
+A linha de código:
 
     puts "x is not empty" if !x.empty?
 
-mostra que, em ruby, e possivel usar o if para executar algo somente se a condiçao posterior ao if for atendida. unless funciona de forma similar:
+mostra que, em ruby, é possivel usar o if para executar algo somente se a condição posterior ao if for atendida. unless funciona de forma similar:
 
     >> string = "foobar"
     >> puts "The string '#{string}' is nonempty." unless string.empty?
     The string 'foobar' is nonempty.
     => nil
 
-O objeto nil e especial uma vez que ele e o unico objeto de ruby, em um contexto booleano, considerado falso(alem, claro do proprio false):
+O objeto nil é especial uma vez que ele e o unico objeto de ruby, em um contexto booleano, considerado falso(além, claro do proprio false):
 
     >> !!nil
     => false
 
-Todos os outros objetos, incluindo 0, sao verdadeiros:
+Todos os outros objetos, incluindo 0, são verdadeiros:
 
     >> !!0
     => true
@@ -319,7 +319,7 @@ Também é possível adicionar elementos em um array usando o método push ou se
     >> a << "foo" << "bar"        # Chaining array pushes
     => [42, 8, 17, 6, 7, "foo", "bar"]
 
-o metodo join faz o servico contrario do split:
+o metodo join faz o servico contrário do split:
 
     >> a
     => [42, 8, 17, 7, "foo", "bar"]
@@ -422,7 +422,7 @@ As duas últimas expressões acima pode também ser escritas assim:
 
 **Hashes e symbols**
 
-Hashes sao, basicamente, arrays que podem ter indices que nao sao inteiros. Na verdade os índices , ou keys, podem ser praticamente qualquer tipo de objeto, por exemplo strings:
+Hashes sao, basicamente, arrays que podem ter indices que não são inteiros. Na verdade os índices , ou keys, podem ser praticamente qualquer tipo de objeto, por exemplo strings:
 
     >> user = {}                          # {} is an empty hash.
     => {}
@@ -537,7 +537,7 @@ Já que word é uma string, faz mais sentido que nossa classe herde de String:
     >>   end
     >> end
     => nil
-    >> "deified".palindrome?
+    >> "mussum".palindrome?
     => true
 
 
