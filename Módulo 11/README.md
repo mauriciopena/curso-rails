@@ -246,6 +246,60 @@ Para manipular relationships vamos criar alguns métodos utilitários como follo
 
 **Interface web para seguir usuários**
 
+Primeiro vamos adicionar relacionamentos de following/follower a nossas dados de exemplo: 
+
+> db/seeds.rb
+   
+    .
+    .
+    .
+    .
+    # Following relationships
+    users = User.all
+    user  = users.first
+    following = users[2..50]
+    followers = users[3..40]
+    following.each { |followed| user.follow(followed) }
+    followers.each { |follower| follower.follow(user) }
+
+para aplicar o código acima:
+
+    $ bundle exec rake db:migrate:reset
+    $ bundle exec rake db:seed
+
+**Formulário de follow e número de seguidos e seguidores:**
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/stats_partial_mockup.png)
+
+> config/routes.rb
+
+    Rails.application.routes.draw do
+      root                'static_pages#home'
+      get    'help'    => 'static_pages#help'
+      get    'about'   => 'static_pages#about'
+      get    'contact' => 'static_pages#contact'
+      get    'signup'  => 'users#new'
+      get    'login'   => 'sessions#new'
+      post   'login'   => 'sessions#create'
+      delete 'logout'  => 'sessions#destroy'
+      resources :users do
+        member do
+          get :following, :followers
+        end
+      end
+      resources :microposts,          only: [:create, :destroy]
+    end
+
+com isso temos novas rotas disponíveis:
+
+    HTTP request 	URL 	            Action 	Named route
+    GET 	        /users/1/following 	following 	following_user_path(1)
+    GET 	        /users/1/followers 	followers 	followers_user_path(1)
+
+
+
+
+
 
 
 
