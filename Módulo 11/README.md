@@ -297,6 +297,115 @@ com isso temos novas rotas disponíveis:
     GET 	        /users/1/followers 	followers 	followers_user_path(1)
 
 
+> app/views/shared/_stats.html.erb
+
+    <% @user ||= current_user %>
+    <div class="stats">
+      <a href="<%= following_user_path(@user) %>">
+        <strong id="following" class="stat">
+          <%= @user.following.count %>
+        </strong>
+        following
+      </a>
+      <a href="<%= followers_user_path(@user) %>">
+        <strong id="followers" class="stat">
+          <%= @user.followers.count %>
+        </strong>
+        followers
+      </a>
+    </div>
+
+> app/views/static_pages/home.html.erb
+
+    <% if logged_in? %>
+      <div class="row">
+        <aside class="col-md-4">
+          <section class="user_info">
+            <%= render 'shared/user_info' %>
+          </section>
+          <section class="stats">
+            <%= render 'shared/stats' %>
+          </section>
+          <section class="micropost_form">
+            <%= render 'shared/micropost_form' %>
+          </section>
+        </aside>
+        <div class="col-md-8">
+          <h3>Micropost Feed</h3>
+          <%= render 'shared/feed' %>
+        </div>
+      </div>
+    <% else %>
+      .
+      .
+      .
+    <% end %>
+
+> app/assets/stylesheets/custom.css.scss
+
+    .
+    .
+    .
+    /* sidebar */
+    .
+    .
+    .
+    .gravatar {
+      float: left;
+      margin-right: 10px;
+    }
+    
+    .gravatar_edit {
+      margin-top: 15px;
+    }
+    
+    .stats {
+      overflow: auto;
+      margin-top: 0;
+      padding: 0;
+      a {
+        float: left;
+        padding: 0 10px;
+        border-left: 1px solid $gray-lighter;
+        color: gray;
+        &:first-child {
+          padding-left: 0;
+          border: 0;
+        }
+        &:hover {
+          text-decoration: none;
+          color: blue;
+        }
+      }
+      strong {
+        display: block;
+      }
+    }
+    
+    .user_avatars {
+      overflow: auto;
+      margin-top: 10px;
+      .gravatar {
+        margin: 1px 1px;
+      }
+      a {
+        padding: 0;
+      }
+    }
+    
+    .users.follow {
+      padding: 0;
+    }
+    
+    /* forms */
+    .
+    .
+    .
+
+
+
+
+
 
 
 
