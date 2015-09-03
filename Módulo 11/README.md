@@ -349,16 +349,7 @@ com isso temos novas rotas disponíveis:
     /* sidebar */
     .
     .
-    .
-    .gravatar {
-      float: left;
-      margin-right: 10px;
-    }
-    
-    .gravatar_edit {
-      margin-top: 15px;
-    }
-    
+    .    
     .stats {
       overflow: auto;
       margin-top: 0;
@@ -402,6 +393,81 @@ com isso temos novas rotas disponíveis:
     .
     .
 
+
+> app/views/users/_follow_form.html.erb
+
+    <% unless current_user?(@user) %>
+      <div id="follow_form">
+      <% if current_user.following?(@user) %>
+        <%= render 'unfollow' %>
+      <% else %>
+        <%= render 'follow' %>
+      <% end %>
+      </div>
+    <% end %>
+
+> config/routes.rb
+
+    Rails.application.routes.draw do
+      root                'static_pages#home'
+      get    'help'    => 'static_pages#help'
+      get    'about'   => 'static_pages#about'
+      get    'contact' => 'static_pages#contact'
+      get    'signup'  => 'users#new'
+      get    'login'   => 'sessions#new'
+      post   'login'   => 'sessions#create'
+      delete 'logout'  => 'sessions#destroy'
+      resources :users do
+        member do
+          get :following, :followers
+        end
+      end
+      resources :microposts,          only: [:create, :destroy]
+      resources :relationships,       only: [:create, :destroy]
+    end
+
+> app/views/users/_follow.html.erb
+
+    <%= form_for(current_user.active_relationships.build) do |f| %>
+      <div><%= hidden_field_tag :followed_id, @user.id %></div>
+      <%= f.submit "Follow", class: "btn btn-primary" %>
+    <% end %>
+
+> app/views/users/_unfollow.html.erb
+
+    <%= form_for(current_user.active_relationships.find_by(followed_id: @user.id),
+                 html: { method: :delete }) do |f| %>
+      <%= f.submit "Unfollow", class: "btn" %>
+    <% end %>
+
+> app/views/users/show.html.erb
+
+    <% provide(:title, @user.name) %>
+    <div class="row">
+      <aside class="col-md-4">
+        <section>
+          <h1>
+            <%= gravatar_for @user %>
+            <%= @user.name %>
+          </h1>
+        </section>
+        <section class="stats">
+          <%= render 'shared/stats' %>
+        </section>
+      </aside>
+      <div class="col-md-8">
+        <%= render 'follow_form' if logged_in? %>
+        <% if @user.microposts.any? %>
+          <h3>Microposts (<%= @user.microposts.count %>)</h3>
+          <ol class="microposts">
+            <%= render @microposts %>
+          </ol>
+          <%= will_paginate @microposts %>
+        <% end %>
+      </div>
+    </div>
+
+**Páginas de Following(seguidos) e followers(seguidores)**
 
 
 
