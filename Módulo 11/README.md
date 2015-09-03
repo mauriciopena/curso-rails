@@ -469,6 +469,97 @@ com isso temos novas rotas disponíveis:
 
 **Páginas de Following(seguidos) e followers(seguidores)**
 
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/following_mockup_bootstrap.png)
+
+> test/controllers/users_controller_test.rb
+
+    require 'test_helper'
+    
+    class UsersControllerTest < ActionController::TestCase
+    
+      def setup
+        @user = users(:michael)
+        @other_user = users(:archer)
+      end
+      .
+      .
+      .
+      test "should redirect following when not logged in" do
+        get :following, id: @user
+        assert_redirected_to login_url
+      end
+    
+      test "should redirect followers when not logged in" do
+        get :followers, id: @user
+        assert_redirected_to login_url
+      end
+    end
+
+> app/controllers/users_controller.rb
+
+    class UsersController < ApplicationController
+      before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
+                                            :following, :followers]
+      .
+      .
+      .
+      def following
+        @title = "Following"
+        @user  = User.find(params[:id])
+        @users = @user.following.paginate(page: params[:page])
+        render 'show_follow'
+      end
+    
+      def followers
+        @title = "Followers"
+        @user  = User.find(params[:id])
+        @users = @user.followers.paginate(page: params[:page])
+        render 'show_follow'
+      end
+    
+      private
+      .
+      .
+      .
+    end
+
+> app/views/users/show_follow.html.erb
+
+    <% provide(:title, @title) %>
+    <div class="row">
+      <aside class="col-md-4">
+        <section class="user_info">
+          <%= gravatar_for @user %>
+          <h1><%= @user.name %></h1>
+          <span><%= link_to "view my profile", @user %></span>
+          <span><b>Microposts:</b> <%= @user.microposts.count %></span>
+        </section>
+        <section class="stats">
+          <%= render 'shared/stats' %>
+          <% if @users.any? %>
+            <div class="user_avatars">
+              <% @users.each do |user| %>
+                <%= link_to gravatar_for(user, size: 30), user %>
+              <% end %>
+            </div>
+          <% end %>
+        </section>
+      </aside>
+      <div class="col-md-8">
+        <h3><%= @title %></h3>
+        <% if @users.any? %>
+          <ul class="users follow">
+            <%= render @users %>
+          </ul>
+          <%= will_paginate %>
+        <% end %>
+      </div>
+    </div>
+
+
+
+
+
 
 
 
