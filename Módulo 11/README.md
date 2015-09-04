@@ -664,6 +664,78 @@ com isso temos novas rotas disponíveis:
 
 **Botão follow com ajax**
 
+> app/views/users/_follow.html.erb
+
+    <%= form_for(current_user.active_relationships.build, remote: true) do |f| %>
+      <div><%= hidden_field_tag :followed_id, @user.id %></div>
+      <%= f.submit "Follow", class: "btn btn-primary" %>
+    <% end %>
+
+> app/views/users/_unfollow.html.erb
+
+    <%= form_for(current_user.active_relationships.find_by(followed_id: @user.id),
+                 html: { method: :delete },
+                 remote: true) do |f| %>
+      <%= f.submit "Unfollow", class: "btn" %>
+    <% end %>
+
+> app/controllers/relationships_controller.rb
+
+    class RelationshipsController < ApplicationController
+      before_action :logged_in_user
+    
+      def create
+        @user = User.find(params[:followed_id])
+        current_user.follow(@user)
+        respond_to do |format|
+          format.html { redirect_to @user }
+          format.js
+        end
+      end
+    
+      def destroy
+        @user = Relationship.find(params[:id]).followed
+        current_user.unfollow(@user)
+        respond_to do |format|
+          format.html { redirect_to @user }
+          format.js
+        end
+      end
+    end
+
+Para que nossos botões continuem funcionando mesmo que o browser não tenha javascript habilitado precisamos fazer uma pequena alteração de configuração:
+
+> config/application.rb
+
+    require File.expand_path('../boot', __FILE__)
+    .
+    .
+    .
+    module SampleApp
+      class Application < Rails::Application
+        .
+        .
+        .
+        # Include the authenticity token in remote forms.
+        config.action_view.embed_authenticity_token_in_remote_forms = true
+      end
+    end
+
+> app/views/relationships/create.js.erb
+
+    $("#follow_form").html("<%= escape_javascript(render('users/unfollow')) %>");
+    $("#followers").html('<%= @user.followers.count %>');
+
+> app/views/relationships/destroy.js.erb
+
+    $("#follow_form").html("<%= escape_javascript(render('users/follow')) %>");
+    $("#followers").html('<%= @user.followers.count %>');
+
+
+
+
+
+
 
 
 
