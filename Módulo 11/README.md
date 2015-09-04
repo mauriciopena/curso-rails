@@ -731,6 +731,10 @@ Para que nossos botões continuem funcionando mesmo que o browser não tenha jav
     $("#follow_form").html("<%= escape_javascript(render('users/follow')) %>");
     $("#followers").html('<%= @user.followers.count %>');
 
+**Testes de Following**
+
+
+
 
 
 
