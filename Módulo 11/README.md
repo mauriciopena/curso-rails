@@ -556,6 +556,120 @@ com isso temos novas rotas disponíveis:
       </div>
     </div>
 
+    $ ./bin/rails generate integration_test following
+
+> test/fixtures/relationships.yml
+
+    one:
+      follower: michael
+      followed: lana
+    
+    two:
+      follower: michael
+      followed: mallory
+    
+    three:
+      follower: lana
+      followed: michael
+    
+    four:
+      follower: archer
+      followed: michael
+
+> test/integration/following_test.rb
+
+    require 'test_helper'
+    
+    class FollowingTest < ActionDispatch::IntegrationTest
+    
+      def setup
+        @user = users(:michael)
+        log_in_as(@user)
+      end
+    
+      test "following page" do
+        get following_user_path(@user)
+        assert_not @user.following.empty?
+        assert_match @user.following.count.to_s, response.body
+        @user.following.each do |user|
+          assert_select "a[href=?]", user_path(user)
+        end
+      end
+    
+      test "followers page" do
+        get followers_user_path(@user)
+        assert_not @user.followers.empty?
+        assert_match @user.followers.count.to_s, response.body
+        @user.followers.each do |user|
+          assert_select "a[href=?]", user_path(user)
+        end
+      end
+    end
+
+**Implementação do botão "follow"**
+
+    $ ./bin/rails generate controller Relationships
+
+> test/controllers/relationships_controller_test.rb
+
+    require 'test_helper'
+    
+    class RelationshipsControllerTest < ActionController::TestCase
+    
+      test "create should require logged-in user" do
+        assert_no_difference 'Relationship.count' do
+          post :create
+        end
+        assert_redirected_to login_url
+      end
+    
+      test "destroy should require logged-in user" do
+        assert_no_difference 'Relationship.count' do
+          delete :destroy, id: relationships(:one)
+        end
+        assert_redirected_to login_url
+      end
+    end
+
+> app/controllers/relationships_controller.rb
+
+    class RelationshipsController < ApplicationController
+      before_action :logged_in_user
+    
+      def create
+      end
+    
+      def destroy
+      end
+    end
+
+
+> app/controllers/relationships_controller.rb
+
+    class RelationshipsController < ApplicationController
+      before_action :logged_in_user
+    
+      def create
+        user = User.find(params[:followed_id])
+        current_user.follow(user)
+        redirect_to user
+      end
+    
+      def destroy
+        user = Relationship.find(params[:id]).followed
+        current_user.unfollow(user)
+        redirect_to user
+      end
+    end
+
+**Botão follow com ajax**
+
+
+
+
+
+
+
 
 
 
