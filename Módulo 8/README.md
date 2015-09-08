@@ -367,7 +367,7 @@ vamos fazer um teste de integração com os seguintes passos:
       end
     end
 
-**Loggind out** 
+**Logging out** 
 
 > app/helpers/sessions_helper.rb
 
