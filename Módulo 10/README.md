@@ -727,27 +727,6 @@ mock da home page com feed:
         end
     end
 
-> app/controllers/microposts_controller.rb
-
-    class MicropostsController < ApplicationController
-      .
-      .
-      .
-      def create
-        @micropost = current_user.microposts.build(micropost_params)
-        if @micropost.save
-          flash[:success] = "Micropost created!"
-          redirect_to root_url
-        else
-          @feed_items = []
-          render 'static_pages/home'
-        end
-      end
-      .
-      .
-      .
-    end
-
 **Exlcuíndo microposts**
 
 ![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/micropost_delete_links_mockup_3rd_edition.png)
