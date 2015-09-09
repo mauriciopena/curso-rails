@@ -727,7 +727,7 @@ mock da home page com feed:
         end
     end
 
-**Exlcuíndo microposts**
+**Excluíndo microposts**
 
 ![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/micropost_delete_links_mockup_3rd_edition.png)
 
