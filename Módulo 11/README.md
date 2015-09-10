@@ -776,9 +776,43 @@ Para que nossos botões continuem funcionando mesmo que o browser não tenha jav
       end
     end
 
+**O status feed**
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/page_flow_home_page_feed_mockup_bootstrap.png)
+
+O feed de um usuário (id 1) que está seguindo os usuários com ids 2, 7, 8, e 10 ficaria assim:
+
+![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/user_feed.png)
 
 
+> test/models/user_test.rb
 
+    require 'test_helper'
+    
+    class UserTest < ActiveSupport::TestCase
+      .
+      .
+      .
+      test "feed should have the right posts" do
+        michael = users(:michael)
+        archer  = users(:archer)
+        lana    = users(:lana)
+        # Posts from followed user
+        lana.microposts.each do |post_following|
+          assert michael.feed.include?(post_following)
+        end
+        # Posts from self
+        michael.microposts.each do |post_self|
+          assert michael.feed.include?(post_self)
+        end
+        # Posts from unfollowed user
+        archer.microposts.each do |post_unfollowed|
+          assert_not michael.feed.include?(post_unfollowed)
+        end
+      end
+    end
+
+primeira implementação do feed
 
 
 
