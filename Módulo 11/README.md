@@ -855,6 +855,52 @@ Na verdade, que essa contrução é tão útil que ela já existe no Active Reco
     36, 37, 38, 39, 40, 41, 42,43, 44, 45, 46, 47, 48, 49, 50, 51"
 
 
+> app/models/user.rb
+
+    class User < ActiveRecord::Base
+      .
+      .
+      .
+      # Returns true if a password reset has expired.
+      def password_reset_expired?
+        reset_sent_at < 2.hours.ago
+      end
+    
+      # Returns a user's status feed.
+      def feed
+        Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
+      end
+    
+      # Follows a user.
+      def follow(other_user)
+        active_relationships.create(followed_id: other_user.id)
+      end
+      .
+      .
+      .
+    end
+
+**Implementação do feed usando subselects**
+
+> app/models/user.rb
+
+    class User < ActiveRecord::Base
+      .
+      .
+      .
+      # Returns a user's status feed.
+      def feed
+        following_ids = "SELECT followed_id FROM relationships
+                         WHERE  follower_id = :user_id"
+        Micropost.where("user_id IN (#{following_ids})
+                         OR user_id = :user_id", user_id: id)
+      end
+      .
+      .
+      .
+    end
+
+
 
 
 
