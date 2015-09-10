@@ -812,7 +812,53 @@ O feed de um usuário (id 1) que está seguindo os usuários com ids 2, 7, 8, e 
       end
     end
 
-primeira implementação do feed
+**Uma primeira implementação do feed**
+
+A idéia é contruir uma query parecida com isso:
+
+    SELECT * FROM microposts
+    WHERE user_id IN (<list of ids>) OR user_id = <user id>
+
+Uma maneira de fazer isso seria usando o método map que converte um array de inteiros em um array de strings:
+
+    $ rails console
+    >> [1, 2, 3, 4].map { |i| i.to_s }
+    => ["1", "2", "3", "4"]
+
+Situações como essa, em que o mesmo método é chamado em cada elemento de uma coleção,  são tão comuns que existe uma sintaxe especial que usa um "&" e um símbolo correspondente ao método:
+
+    >> [1, 2, 3, 4].map(&:to_s)
+    => ["1", "2", "3", "4"]
+
+Usando o método join podemos criar uma string separada por vírgulas:
+
+    >> [1, 2, 3, 4].map(&:to_s).join(', ')
+    => "1, 2, 3, 4"
+
+Podemos, então, usar o método acima para contruir o array de ids necessário assim:
+
+    >> User.first.following.map(&:id)
+    => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+    24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
+    43, 44, 45, 46, 47, 48, 49, 50, 51]
+
+Na verdade, que essa contrução é tão útil que ela já existe no Active Record:
+
+    >> User.first.following_ids
+    => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+    24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
+    43, 44, 45, 46, 47, 48, 49, 50, 51]
+    
+    >> User.first.following_ids.join(', ')
+    => "4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 22, 23,24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35,
+    36, 37, 38, 39, 40, 41, 42,43, 44, 45, 46, 47, 48, 49, 50, 51"
+
+
+
+
+
+
 
 
 
