@@ -552,6 +552,10 @@ com isso temos novas rotas disponíveis:
       </div>
     </div>
 
+
+Vamos gerar um teste de integração para testar as ações de follow e unfollow: 
+
+
     $ ./bin/rails generate integration_test following
 
 > test/fixtures/relationships.yml
