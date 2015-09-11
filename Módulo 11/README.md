@@ -267,10 +267,6 @@ para aplicar o código acima:
     $ bundle exec rake db:migrate:reset
     $ bundle exec rake db:seed
 
-**Formulário de follow e número de seguidos e seguidores:**
-
-![enter image description here](https://softcover.s3.amazonaws.com/636/ruby_on_rails_tutorial_3rd_edition/images/figures/stats_partial_mockup.png)
-
 > config/routes.rb
 
     Rails.application.routes.draw do
