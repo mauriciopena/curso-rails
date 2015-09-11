@@ -246,7 +246,7 @@ Para manipular relationships vamos criar alguns métodos utilitários como follo
 
 **Interface web para seguir usuários**
 
-Primeiro vamos adicionar relacionamentos de following/follower a nossas dados de exemplo: 
+Primeiro vamos adicionar relacionamentos de following/follower a nossos dados de exemplo: 
 
 > db/seeds.rb
    
